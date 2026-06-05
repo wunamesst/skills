@@ -1,29 +1,29 @@
-# 交互图与 HTML Widget
+# Interactive Diagrams & HTML Widgets
 
-当图表需要以下任一特性时，使用 HTML + 内嵌 SVG，不用纯静态 SVG：
-- 滑块、开关、按钮等控件
-- 点击节点触发状态变化
-- 分步展示（stepper）
-- 动画效果（流动线条、淡入淡出）
-- 循环流程（必须用 stepper，禁止画环形）
-
----
-
-## 核心约束
-
-```
-禁止使用 localStorage / sessionStorage（沙箱不支持）
-禁止使用 position: fixed（导致 iframe 高度坍塌）
-禁止使用 display: none 在流式渲染期间隐藏内容
-脚本在流式渲染结束后才执行，JS 驱动的 stepper 没问题
-外部库只能从：cdnjs.cloudflare.com / esm.sh / cdn.jsdelivr.net / unpkg.com
-```
+When the diagram needs any of the following, use HTML + inline SVG instead of static SVG:
+- Controls: sliders, toggles, buttons
+- Click nodes to trigger state changes
+- Step-by-step presentation (stepper)
+- Animation effects (flowing lines, fade in/out)
+- Cyclic flows (must use stepper; never draw circular diagrams)
 
 ---
 
-## 模板 A：Stepper（分步流程 / 循环流程）
+## Core Constraints
 
-适用：有循环的流程（事件循环、Krebs 循环、GC 周期）、步骤讲解。
+```
+Forbidden: localStorage / sessionStorage (sandbox doesn't support them)
+Forbidden: position: fixed (collapses iframe height)
+Forbidden: display: none to hide content during streaming render
+Scripts execute after streaming render completes — JS-driven stepper is fine
+External libs only from: cdnjs.cloudflare.com / esm.sh / cdn.jsdelivr.net / unpkg.com
+```
+
+---
+
+## Template A: Stepper (Step-by-Step / Cyclic Flows)
+
+Use for: cyclic flows (event loops, Krebs cycle, GC cycles), step-by-step explanations.
 
 ```html
 <style>
@@ -44,9 +44,9 @@
 
 <div class="step-container">
   <div class="step-nav">
-    <button class="step-btn" onclick="prevStep()">← 上一步</button>
+    <button class="step-btn" onclick="prevStep()">← Prev</button>
     <div class="step-dots" id="dots"></div>
-    <button class="step-btn" onclick="nextStep()">下一步 →</button>
+    <button class="step-btn" onclick="nextStep()">Next →</button>
     <span id="step-counter" style="font-size:12px;color:var(--color-text-tertiary)"></span>
   </div>
   <div class="step-panel" id="panel"></div>
@@ -55,21 +55,21 @@
 <script>
 const steps = [
   {
-    title: "步骤 1 标题",
-    desc: "步骤 1 详细说明，可以很长。",
+    title: "Step 1 Title",
+    desc: "Step 1 detailed description, can be lengthy.",
     svg: `<svg width="100%" viewBox="0 0 680 200" role="img">
-      <title>步骤1</title><desc>步骤1示意</desc>
+      <title>Step 1</title><desc>Step 1 illustration</desc>
       <defs><marker id="a1" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5"/></marker></defs>
-      <!-- 步骤1 SVG 内容 -->
+      <!-- Step 1 SVG content -->
     </svg>`
   },
   {
-    title: "步骤 2 标题",
-    desc: "步骤 2 说明。",
+    title: "Step 2 Title",
+    desc: "Step 2 description.",
     svg: `<svg width="100%" viewBox="0 0 680 200" role="img">
-      <title>步骤2</title><desc>步骤2示意</desc>
+      <title>Step 2</title><desc>Step 2 illustration</desc>
       <defs><marker id="a2" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse"><path d="M2 1L8 5L2 9" fill="none" stroke="context-stroke" stroke-width="1.5"/></marker></defs>
-      <!-- 步骤2 SVG 内容 -->
+      <!-- Step 2 SVG content -->
     </svg>`
   }
 ];
@@ -97,14 +97,13 @@ render();
 </script>
 ```
 
-**注意：** 每个步骤的 SVG 内嵌了独立的 `<marker>`，id 必须唯一（a1、a2...），
-否则后续步骤的箭头会引用前一个步骤已卸载的 marker。
+**Note:** Each step's SVG embeds its own `<marker>` with a unique id (a1, a2...), otherwise later steps' arrows may reference an already-unmounted marker from a previous step.
 
 ---
 
-## 模板 B：滑块控件图（连续量调节）
+## Template B: Slider Control (Continuous Parameter Adjustment)
 
-适用：展示参数变化对系统状态的影响（温度、负载、延迟等）。
+Use for: showing how parameter changes affect system state (temperature, load, latency, etc.).
 
 ```html
 <style>
@@ -115,8 +114,8 @@ render();
 </style>
 
 <svg id="main-svg" width="100%" viewBox="0 0 680 300" role="img">
-  <title>可调节示意图</title>
-  <desc>通过滑块调节参数，观察系统状态变化</desc>
+  <title>Adjustable illustration</title>
+  <desc>Adjust parameter via slider to observe system state changes</desc>
   <defs>
     <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5"
       markerWidth="6" markerHeight="6" orient="auto-start-reverse">
@@ -124,13 +123,13 @@ render();
         stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
     </marker>
   </defs>
-  <!-- SVG 内容，用 id 标记需要动态修改的元素 -->
+  <!-- SVG content, mark dynamic elements with id -->
   <rect id="level-bar" x="100" y="100" width="200" height="40" rx="8"/>
   <text class="th" x="340" y="125" text-anchor="middle" dominant-baseline="central" id="level-label">50%</text>
 </svg>
 
 <div class="ctrl">
-  <span>参数名称</span>
+  <span>Parameter name</span>
   <input type="range" min="0" max="100" value="50" oninput="updateViz(this.value)">
   <span class="ctrl-val" id="ctrl-display">50</span>
 </div>
@@ -140,16 +139,16 @@ function updateViz(v) {
   document.getElementById('ctrl-display').textContent = v;
   document.getElementById('level-label').textContent = v + '%';
   document.getElementById('level-bar').setAttribute('width', v * 2);
-  // 根据 v 值更新其他 SVG 元素
+  // Update other SVG elements based on v value
 }
 </script>
 ```
 
 ---
 
-## 模板 C：节点点击高亮
+## Template C: Clickable Node Highlight
 
-适用：架构图中点击节点查看详情。
+Use for: clicking nodes in architecture diagrams to view details.
 
 ```html
 <div id="detail-box" style="margin-top:12px; padding:12px 16px;
@@ -157,12 +156,12 @@ function updateViz(v) {
   border-radius:var(--border-radius-lg);
   font-size:13px; color:var(--color-text-secondary);
   min-height:40px;">
-  点击上方节点查看详情
+  Click a node above to view details
 </div>
 
 <svg width="100%" viewBox="0 0 680 200" role="img">
-  <title>可点击架构图</title>
-  <desc>点击各节点查看组件详情</desc>
+  <title>Clickable Architecture Diagram</title>
+  <desc>Click nodes to view component details</desc>
   <defs>
     <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5"
       markerWidth="6" markerHeight="6" orient="auto-start-reverse">
@@ -171,16 +170,16 @@ function updateViz(v) {
     </marker>
   </defs>
 
-  <g class="node c-teal" onclick="showDetail('用户服务', '处理注册、登录、Token 验证。依赖 Redis 做 session 存储。')">
+  <g class="node c-teal" onclick="showDetail('User Service', 'Handles registration, login, token verification. Depends on Redis for session storage.')">
     <rect x="80" y="60" width="160" height="56" rx="8" stroke-width="0.5"/>
-    <text class="th" x="160" y="82" text-anchor="middle" dominant-baseline="central">用户服务</text>
-    <text class="ts" x="160" y="100" text-anchor="middle" dominant-baseline="central">点击查看详情</text>
+    <text class="th" x="160" y="82" text-anchor="middle" dominant-baseline="central">User Service</text>
+    <text class="ts" x="160" y="100" text-anchor="middle" dominant-baseline="central">Click for details</text>
   </g>
 
-  <g class="node c-coral" onclick="showDetail('订单服务', '处理下单、支付、退款。通过 MQ 与用户服务解耦。')">
+  <g class="node c-coral" onclick="showDetail('Order Service', 'Handles ordering, payment, refunds. Decoupled from User Service via MQ.')">
     <rect x="440" y="60" width="160" height="56" rx="8" stroke-width="0.5"/>
-    <text class="th" x="520" y="82" text-anchor="middle" dominant-baseline="central">订单服务</text>
-    <text class="ts" x="520" y="100" text-anchor="middle" dominant-baseline="central">点击查看详情</text>
+    <text class="th" x="520" y="82" text-anchor="middle" dominant-baseline="central">Order Service</text>
+    <text class="ts" x="520" y="100" text-anchor="middle" dominant-baseline="central">Click for details</text>
   </g>
 
   <line x1="240" y1="88" x2="438" y2="88" stroke="#888780" stroke-width="1.5" marker-end="url(#arrow)"/>
@@ -196,15 +195,15 @@ function showDetail(name, desc) {
 
 ---
 
-## 动画规范
+## Animation Guidelines
 
 ```css
-/* 只允许动 transform 和 opacity */
+/* Only animate transform and opacity */
 @keyframes flow {
   to { stroke-dashoffset: -20; }
 }
 
-/* 必须套 prefers-reduced-motion */
+/* Must wrap in prefers-reduced-motion */
 @media (prefers-reduced-motion: no-preference) {
   .flowing-line {
     stroke-dasharray: 5 5;
@@ -213,5 +212,5 @@ function showDetail(name, desc) {
 }
 ```
 
-动画用途：流动线条表示数据流向、淡入淡出表示状态切换。
-禁止：纯装饰性动画、物理引擎、复杂的 JS 动画库。
+Animation purposes: flowing lines for data direction, fade in/out for state transitions.
+Forbidden: purely decorative animations, physics engines, complex JS animation libraries.

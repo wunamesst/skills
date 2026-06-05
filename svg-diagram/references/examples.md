@@ -1,24 +1,24 @@
-# 完整示例代码
+# Complete Example Code
 
-## 目录
-1. [时序图 — 6 参与者](#时序图)
-2. [流程图 — 垂直 + 分支](#流程图)
-3. [结构图 — 双层嵌套](#结构图)
+## Table of Contents
+1. [Sequence Diagram — 6 Participants](#sequence-diagram)
+2. [Flowchart — Vertical + Branch](#flowchart)
+3. [Structure Diagram — Two-Level Nesting](#structure-diagram)
 
 ---
 
-## 时序图
+## Sequence Diagram
 
-场景：视频上传 → 审核 → 转码完整流程（6 参与者）
+Scenario: Video upload → review → transcoding full flow (6 participants)
 
-参与者中心 x：50 / 160 / 282 / 390 / 505 / 621
-盒子宽 90，起始 x = 中心 x - 45
+Participant center X: 50 / 160 / 282 / 390 / 505 / 621
+Box width 90, start x = center x - 45
 
 ```xml
 <svg width="100%" viewBox="0 0 680 560" role="img"
   xmlns="http://www.w3.org/2000/svg">
-  <title>视频处理时序图</title>
-  <desc>从上传到转码完成的完整消息交互时序</desc>
+  <title>Video Processing Sequence Diagram</title>
+  <desc>Complete message interaction sequence from upload to transcoding completion</desc>
   <defs>
     <style>
       svg{font-family:"Anthropic Sans",-apple-system,system-ui,"Segoe UI",sans-serif}
@@ -61,21 +61,21 @@
     </marker>
   </defs>
 
-  <!-- 参与者头部 -->
+  <!-- Participant headers -->
   <g class="c-teal"><rect x="5" y="20" width="90" height="40" rx="6" stroke-width="0.5"/>
-    <text class="th" x="50" y="40" text-anchor="middle" dominant-baseline="central">上传者</text></g>
+    <text class="th" x="50" y="40" text-anchor="middle" dominant-baseline="central">Uploader</text></g>
   <g class="c-purple"><rect x="115" y="20" width="90" height="40" rx="6" stroke-width="0.5"/>
-    <text class="th" x="160" y="40" text-anchor="middle" dominant-baseline="central">审核员</text></g>
+    <text class="th" x="160" y="40" text-anchor="middle" dominant-baseline="central">Reviewer</text></g>
   <g class="c-blue"><rect x="233" y="20" width="98" height="40" rx="6" stroke-width="0.5"/>
-    <text class="th" x="282" y="40" text-anchor="middle" dominant-baseline="central">video 表</text></g>
+    <text class="th" x="282" y="40" text-anchor="middle" dominant-baseline="central">video table</text></g>
   <g class="c-amber"><rect x="345" y="20" width="90" height="40" rx="6" stroke-width="0.5"/>
     <text class="th" x="390" y="40" text-anchor="middle" dominant-baseline="central">TMS</text></g>
   <g class="c-coral"><rect x="455" y="20" width="100" height="40" rx="6" stroke-width="0.5"/>
-    <text class="th" x="505" y="40" text-anchor="middle" dominant-baseline="central">task 表</text></g>
+    <text class="th" x="505" y="40" text-anchor="middle" dominant-baseline="central">task table</text></g>
   <g class="c-gray"><rect x="571" y="20" width="100" height="40" rx="6" stroke-width="0.5"/>
-    <text class="th" x="621" y="40" text-anchor="middle" dominant-baseline="central">IMM 服务</text></g>
+    <text class="th" x="621" y="40" text-anchor="middle" dominant-baseline="central">IMM Service</text></g>
 
-  <!-- 生命线 -->
+  <!-- Lifelines -->
   <line x1="50"  y1="60" x2="50"  y2="510" stroke="var(--b)" stroke-width="0.5" stroke-dasharray="4 3"/>
   <line x1="160" y1="60" x2="160" y2="510" stroke="var(--b)" stroke-width="0.5" stroke-dasharray="4 3"/>
   <line x1="282" y1="60" x2="282" y2="510" stroke="var(--b)" stroke-width="0.5" stroke-dasharray="4 3"/>
@@ -83,75 +83,75 @@
   <line x1="505" y1="60" x2="505" y2="510" stroke="var(--b)" stroke-width="0.5" stroke-dasharray="4 3"/>
   <line x1="621" y1="60" x2="621" y2="510" stroke="var(--b)" stroke-width="0.5" stroke-dasharray="4 3"/>
 
-  <!-- ① 上传 -->
+  <!-- ① Upload -->
   <rect x="28" y="76" width="630" height="52" rx="4" fill="var(--bg2)" opacity="0.5"/>
-  <text class="ts" x="36" y="92" fill="var(--s)">① 上传文件</text>
+  <text class="ts" x="36" y="92" fill="var(--s)">① Upload file</text>
   <line x1="50" y1="112" x2="270" y2="112" stroke="#1D9E75" stroke-width="1.5" marker-end="url(#arrow)"/>
-  <text class="ts" x="160" y="106" text-anchor="middle">上传视频</text>
+  <text class="ts" x="160" y="106" text-anchor="middle">Upload video</text>
 
-  <!-- ② 审核 -->
+  <!-- ② Review -->
   <rect x="28" y="144" width="630" height="90" rx="4" fill="var(--bg2)" opacity="0.5"/>
-  <text class="ts" x="36" y="160" fill="var(--s)">② 审核</text>
+  <text class="ts" x="36" y="160" fill="var(--s)">② Review</text>
   <line x1="160" y1="176" x2="270" y2="176" stroke="#534AB7" stroke-width="1.5" marker-end="url(#arrow)"/>
-  <text class="ts" x="215" y="170" text-anchor="middle">读取视频</text>
+  <text class="ts" x="215" y="170" text-anchor="middle">Read video</text>
   <line x1="270" y1="196" x2="172" y2="196" stroke="#888780" stroke-width="1" stroke-dasharray="5 3" marker-end="url(#arrow)"/>
-  <text class="ts" x="215" y="190" text-anchor="middle">返回数据</text>
+  <text class="ts" x="215" y="190" text-anchor="middle">Return data</text>
   <line x1="160" y1="218" x2="270" y2="218" stroke="#534AB7" stroke-width="1.5" marker-end="url(#arrow)"/>
-  <text class="ts" x="215" y="212" text-anchor="middle">写审核日志</text>
+  <text class="ts" x="215" y="212" text-anchor="middle">Write audit log</text>
 
-  <!-- ③ 同步 TMS -->
+  <!-- ③ Sync to TMS -->
   <rect x="28" y="250" width="630" height="68" rx="4" fill="var(--bg2)" opacity="0.5"/>
-  <text class="ts" x="36" y="266" fill="var(--s)">③ Completion 同步</text>
+  <text class="ts" x="36" y="266" fill="var(--s)">③ Completion sync</text>
   <line x1="50" y1="282" x2="270" y2="282" stroke="#BA7517" stroke-width="1.5" marker-end="url(#arrow)"/>
-  <text class="ts" x="160" y="276" text-anchor="middle">读取视频数据</text>
+  <text class="ts" x="160" y="276" text-anchor="middle">Read video data</text>
   <line x1="50" y1="302" x2="378" y2="302" stroke="#BA7517" stroke-width="1.5" marker-end="url(#arrow)"/>
-  <text class="ts" x="214" y="296" text-anchor="middle">同步到 TMS</text>
+  <text class="ts" x="214" y="296" text-anchor="middle">Sync to TMS</text>
 
-  <!-- ④ 发起转码 -->
+  <!-- ④ Trigger transcoding -->
   <rect x="28" y="334" width="630" height="68" rx="4" fill="var(--bg2)" opacity="0.5"/>
-  <text class="ts" x="36" y="350" fill="var(--s)">④ 发起 IMM 转码</text>
+  <text class="ts" x="36" y="350" fill="var(--s)">④ Trigger IMM transcode</text>
   <line x1="390" y1="366" x2="493" y2="366" stroke="#993C1D" stroke-width="1.5" marker-end="url(#arrow)"/>
-  <text class="ts" x="441" y="360" text-anchor="middle">写入转码任务</text>
+  <text class="ts" x="441" y="360" text-anchor="middle">Write transcode task</text>
   <line x1="390" y1="386" x2="609" y2="386" stroke="#993C1D" stroke-width="1.5" marker-end="url(#arrow)"/>
-  <text class="ts" x="500" y="380" text-anchor="middle">发起转码请求</text>
+  <text class="ts" x="500" y="380" text-anchor="middle">Send transcode request</text>
 
-  <!-- ⑤ 定时回写 -->
+  <!-- ⑤ Poll & write-back -->
   <rect x="28" y="418" width="630" height="80" rx="4" fill="var(--bg2)" opacity="0.5"/>
-  <text class="ts" x="36" y="434" fill="var(--s)">⑤ 定时任务回写</text>
+  <text class="ts" x="36" y="434" fill="var(--s)">⑤ Cron write-back</text>
   <line x1="50" y1="450" x2="609" y2="450" stroke="#888780" stroke-width="1" stroke-dasharray="5 3" marker-end="url(#arrow)"/>
-  <text class="ts" x="330" y="444" text-anchor="middle">拉取转码结果</text>
+  <text class="ts" x="330" y="444" text-anchor="middle">Pull transcode result</text>
   <line x1="50" y1="470" x2="493" y2="470" stroke="#993C1D" stroke-width="1.5" marker-end="url(#arrow)"/>
-  <text class="ts" x="272" y="464" text-anchor="middle">回写任务 + 视频状态</text>
+  <text class="ts" x="272" y="464" text-anchor="middle">Write-back task + video status</text>
 
-  <!-- 底部参与者（与顶部相同） -->
+  <!-- Bottom participants (same as top) -->
   <g class="c-teal"><rect x="5" y="518" width="90" height="40" rx="6" stroke-width="0.5"/>
-    <text class="th" x="50" y="538" text-anchor="middle" dominant-baseline="central">上传者</text></g>
+    <text class="th" x="50" y="538" text-anchor="middle" dominant-baseline="central">Uploader</text></g>
   <g class="c-purple"><rect x="115" y="518" width="90" height="40" rx="6" stroke-width="0.5"/>
-    <text class="th" x="160" y="538" text-anchor="middle" dominant-baseline="central">审核员</text></g>
+    <text class="th" x="160" y="538" text-anchor="middle" dominant-baseline="central">Reviewer</text></g>
   <g class="c-blue"><rect x="233" y="518" width="98" height="40" rx="6" stroke-width="0.5"/>
-    <text class="th" x="282" y="538" text-anchor="middle" dominant-baseline="central">video 表</text></g>
+    <text class="th" x="282" y="538" text-anchor="middle" dominant-baseline="central">video table</text></g>
   <g class="c-amber"><rect x="345" y="518" width="90" height="40" rx="6" stroke-width="0.5"/>
     <text class="th" x="390" y="538" text-anchor="middle" dominant-baseline="central">TMS</text></g>
   <g class="c-coral"><rect x="455" y="518" width="100" height="40" rx="6" stroke-width="0.5"/>
-    <text class="th" x="505" y="538" text-anchor="middle" dominant-baseline="central">task 表</text></g>
+    <text class="th" x="505" y="538" text-anchor="middle" dominant-baseline="central">task table</text></g>
   <g class="c-gray"><rect x="571" y="518" width="100" height="40" rx="6" stroke-width="0.5"/>
-    <text class="th" x="621" y="538" text-anchor="middle" dominant-baseline="central">IMM 服务</text></g>
+    <text class="th" x="621" y="538" text-anchor="middle" dominant-baseline="central">IMM Service</text></g>
 </svg>
 ```
 
 ---
 
-## 流程图
+## Flowchart
 
-场景：审批流程（含拒绝回流）
+Scenario: Approval process (with rejection fallback)
 
-节点宽 135，间距 20，4 节点总宽 = 4×135+3×20 = 600，起始 x = 40
+Node width 135, gap 20, 4 nodes total = 4×135+3×20 = 600, start x = 40
 
 ```xml
 <svg width="100%" viewBox="0 0 680 280" role="img"
   xmlns="http://www.w3.org/2000/svg">
-  <title>审批流程图</title>
-  <desc>提交申请经审核、决策到通知用户，拒绝时退回修改</desc>
+  <title>Approval Flowchart</title>
+  <desc>Submit application, review, decide, notify; reject sends back for revision</desc>
   <defs>
     <style>
       svg{font-family:"Anthropic Sans",-apple-system,system-ui,"Segoe UI",sans-serif}
@@ -186,52 +186,52 @@
     </marker>
   </defs>
 
-  <!-- 4 个节点，宽 135，间距 20，起始 x=40 -->
+  <!-- 4 nodes, width 135, gap 20, start x=40 -->
   <g class="c-teal">
     <rect x="40" y="60" width="135" height="56" rx="8" stroke-width="0.5"/>
-    <text class="th" x="107" y="79" text-anchor="middle" dominant-baseline="central">提交申请</text>
-    <text class="ts" x="107" y="98" text-anchor="middle" dominant-baseline="central">用户填写表单</text>
+    <text class="th" x="107" y="79" text-anchor="middle" dominant-baseline="central">Submit</text>
+    <text class="ts" x="107" y="98" text-anchor="middle" dominant-baseline="central">User fills form</text>
   </g>
   <g class="c-purple">
     <rect x="195" y="60" width="135" height="56" rx="8" stroke-width="0.5"/>
-    <text class="th" x="262" y="79" text-anchor="middle" dominant-baseline="central">审核材料</text>
-    <text class="ts" x="262" y="98" text-anchor="middle" dominant-baseline="central">审核员核查</text>
+    <text class="th" x="262" y="79" text-anchor="middle" dominant-baseline="central">Review</text>
+    <text class="ts" x="262" y="98" text-anchor="middle" dominant-baseline="central">Reviewer checks</text>
   </g>
   <g class="c-amber">
     <rect x="350" y="60" width="135" height="56" rx="8" stroke-width="0.5"/>
-    <text class="th" x="417" y="79" text-anchor="middle" dominant-baseline="central">决策</text>
-    <text class="ts" x="417" y="98" text-anchor="middle" dominant-baseline="central">通过 / 拒绝</text>
+    <text class="th" x="417" y="79" text-anchor="middle" dominant-baseline="central">Decide</text>
+    <text class="ts" x="417" y="98" text-anchor="middle" dominant-baseline="central">Approve / Reject</text>
   </g>
   <g class="c-green">
     <rect x="505" y="60" width="135" height="56" rx="8" stroke-width="0.5"/>
-    <text class="th" x="572" y="79" text-anchor="middle" dominant-baseline="central">通知用户</text>
-    <text class="ts" x="572" y="98" text-anchor="middle" dominant-baseline="central">发送结果通知</text>
+    <text class="th" x="572" y="79" text-anchor="middle" dominant-baseline="central">Notify</text>
+    <text class="ts" x="572" y="98" text-anchor="middle" dominant-baseline="central">Send result</text>
   </g>
 
-  <!-- 正向连线 -->
+  <!-- Forward edges -->
   <line x1="175" y1="88" x2="193" y2="88" stroke="#1D9E75" stroke-width="1.5" marker-end="url(#arrow)"/>
   <line x1="330" y1="88" x2="348" y2="88" stroke="#534AB7" stroke-width="1.5" marker-end="url(#arrow)"/>
   <line x1="485" y1="88" x2="503" y2="88" stroke="#BA7517" stroke-width="1.5" marker-end="url(#arrow)"/>
 
-  <!-- 拒绝回流（L 形绕过所有节点下方） -->
+  <!-- Rejection fallback (L-shaped, goes below all nodes) -->
   <path d="M 417 116 L 417 170 L 107 170 L 107 116"
     fill="none" stroke="#E24B4A" stroke-width="1"
     stroke-dasharray="5 3" marker-end="url(#arrow)"/>
-  <text class="ts" x="262" y="190" text-anchor="middle">拒绝，退回重填</text>
+  <text class="ts" x="262" y="190" text-anchor="middle">Rejected, send back</text>
 </svg>
 ```
 
 ---
 
-## 结构图
+## Structure Diagram
 
-场景：微服务系统（外层 API 网关，内层两个服务 + 数据库）
+Scenario: Microservice system (outer API gateway, two inner services + databases)
 
 ```xml
 <svg width="100%" viewBox="0 0 680 320" role="img"
   xmlns="http://www.w3.org/2000/svg">
-  <title>微服务架构结构图</title>
-  <desc>API 网关下包含用户服务和订单服务，各自连接独立数据库</desc>
+  <title>Microservice Architecture Structure Diagram</title>
+  <desc>API gateway contains user service and order service, each with independent databases</desc>
   <defs>
     <style>
       svg{font-family:"Anthropic Sans",-apple-system,system-ui,"Segoe UI",sans-serif}
@@ -266,44 +266,44 @@
     </marker>
   </defs>
 
-  <!-- 外层容器（c-blue） -->
+  <!-- Outer container (c-blue) -->
   <g class="c-blue">
     <rect x="60" y="20" width="580" height="270" rx="20" stroke-width="0.5"/>
-    <text class="th" x="350" y="50" text-anchor="middle" dominant-baseline="central">后端系统</text>
+    <text class="th" x="350" y="50" text-anchor="middle" dominant-baseline="central">Backend System</text>
   </g>
 
-  <!-- 内层：用户服务（c-teal，不同色阶） -->
+  <!-- Inner: User Service (c-teal, different color class) -->
   <g class="c-teal">
     <rect x="90" y="74" width="220" height="80" rx="8" stroke-width="0.5"/>
-    <text class="th" x="200" y="106" text-anchor="middle" dominant-baseline="central">用户服务</text>
-    <text class="ts" x="200" y="126" text-anchor="middle" dominant-baseline="central">注册、登录、鉴权</text>
+    <text class="th" x="200" y="106" text-anchor="middle" dominant-baseline="central">User Service</text>
+    <text class="ts" x="200" y="126" text-anchor="middle" dominant-baseline="central">Register, Login, Auth</text>
   </g>
 
-  <!-- 内层：订单服务（c-coral，不同色阶） -->
+  <!-- Inner: Order Service (c-coral, different color class) -->
   <g class="c-coral">
     <rect x="330" y="74" width="290" height="80" rx="8" stroke-width="0.5"/>
-    <text class="th" x="475" y="106" text-anchor="middle" dominant-baseline="central">订单服务</text>
-    <text class="ts" x="475" y="126" text-anchor="middle" dominant-baseline="central">创建、查询、支付</text>
+    <text class="th" x="475" y="106" text-anchor="middle" dominant-baseline="central">Order Service</text>
+    <text class="ts" x="475" y="126" text-anchor="middle" dominant-baseline="central">Create, Query, Pay</text>
   </g>
 
-  <!-- 数据库（c-gray） -->
+  <!-- Databases (c-gray) -->
   <g class="c-gray">
     <rect x="90" y="194" width="220" height="74" rx="8" stroke-width="0.5"/>
-    <text class="th" x="200" y="224" text-anchor="middle" dominant-baseline="central">用户 DB</text>
+    <text class="th" x="200" y="224" text-anchor="middle" dominant-baseline="central">User DB</text>
     <text class="ts" x="200" y="244" text-anchor="middle" dominant-baseline="central">PostgreSQL</text>
   </g>
   <g class="c-gray">
     <rect x="330" y="194" width="290" height="74" rx="8" stroke-width="0.5"/>
-    <text class="th" x="475" y="224" text-anchor="middle" dominant-baseline="central">订单 DB</text>
+    <text class="th" x="475" y="224" text-anchor="middle" dominant-baseline="central">Order DB</text>
     <text class="ts" x="475" y="244" text-anchor="middle" dominant-baseline="central">MySQL</text>
   </g>
 
-  <!-- 服务到 DB 的连线 -->
+  <!-- Service to DB connections -->
   <line x1="200" y1="154" x2="200" y2="192" stroke="#888780" stroke-width="1" marker-end="url(#arrow)"/>
   <line x1="475" y1="154" x2="475" y2="192" stroke="#888780" stroke-width="1" marker-end="url(#arrow)"/>
 
-  <!-- 外部输入（客户端） -->
-  <text class="ts" x="22" y="118" text-anchor="middle">客户端</text>
+  <!-- External input (client) -->
+  <text class="ts" x="22" y="118" text-anchor="middle">Client</text>
   <line x1="42" y1="114" x2="58" y2="114" stroke="#888780" stroke-width="1.5" marker-end="url(#arrow)"/>
 </svg>
 ```

@@ -1,9 +1,9 @@
-# SVG 内嵌样式块
+# SVG Embedded Style Block
 
-每个 SVG 必须在 `<defs>` 内包含以下 `<style>` 块，使图表在浏览器中直接打开时能正确渲染。
-仅保留本图实际使用的 `c-*` 色阶即可，但基础变量和文字 class 必须完整。
+Every SVG must include the following `<style>` block inside `<defs>` so the diagram renders correctly when opened directly in a browser.
+Only keep the `c-*` classes actually used in the diagram, but the base variables and text classes must be present in full.
 
-## 完整样式模板
+## Complete Style Template
 
 ```xml
 <style>
@@ -50,9 +50,9 @@
 </style>
 ```
 
-## 规则
+## Rules
 
-1. `<style>` 必须放在 `<defs>` 内，位于 `<marker>` 之前
-2. `<svg>` 根元素必须包含 `xmlns="http://www.w3.org/2000/svg"`
-3. 只包含本图使用的 `c-*` 色阶（最多 3 个），基础部分（font、变量、`.t`/`.ts`/`.th`）始终保留
-4. 深色模式 `@media` 块中只需包含对应的 `c-*` 反转规则
+1. `<style>` must be inside `<defs>`, before `<marker>`
+2. `<svg>` root element must include `xmlns="http://www.w3.org/2000/svg"`
+3. Only include the `c-*` classes used in the diagram (max 3); base section (font, variables, `.t`/`.ts`/`.th`) is always kept
+4. Dark mode `@media` block only needs the corresponding `c-*` override rules

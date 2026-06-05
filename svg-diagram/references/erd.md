@@ -1,11 +1,11 @@
-# ERD / 数据库关系图
+# ERD / Database Relationship Diagrams
 
-数据库表结构图用 mermaid.js 渲染，不手写 SVG。
-原因：字段对齐、连接线路由是文本布局问题，手写坐标极易出错。
+Use mermaid.js for database table structure diagrams, not hand-written SVG.
+Reason: field alignment and relationship routing are text-layout problems; hand-written coordinates are extremely error-prone.
 
 ---
 
-## 完整模板（HTML widget）
+## Complete Template (HTML widget)
 
 ```html
 <style>
@@ -62,7 +62,7 @@ const diagram = `erDiagram
 const { svg } = await mermaid.render('erd-svg', diagram);
 document.getElementById('erd').innerHTML = svg;
 
-/* 圆角化实体外框 */
+/* Round entity border corners */
 document.querySelectorAll('#erd svg.erDiagram .node').forEach(node => {
   const firstPath = node.querySelector('path[d]');
   if (!firstPath) return;
@@ -83,7 +83,7 @@ document.querySelectorAll('#erd svg.erDiagram .node').forEach(node => {
   firstPath.replaceWith(rect);
 });
 
-/* 去除字段行边框 */
+/* Remove field row borders */
 document.querySelectorAll(
   '#erd svg.erDiagram .row-rect-odd path, #erd svg.erDiagram .row-rect-even path'
 ).forEach(p => p.setAttribute('stroke', 'none'));
@@ -92,18 +92,17 @@ document.querySelectorAll(
 
 ---
 
-## 关系基数符号速查
+## Relationship Cardinality Quick Reference
 
-| mermaid 语法 | 含义 |
-|-------------|------|
-| `||--||` | 一对一 |
-| `||--o{` | 一对多（右侧多，可为零） |
-| `||--|{` | 一对多（右侧至少一个） |
-| `}o--o{` | 多对多（两侧均可为零） |
+| mermaid syntax | Meaning |
+|---------------|---------|
+| `||--||` | One-to-one |
+| `||--o{` | One-to-many (right side many, zero allowed) |
+| `||--|{` | One-to-many (right side at least one) |
+| `}o--o{` | Many-to-many (zero allowed on both sides) |
 
 ---
 
-## 何时改用手写 SVG
+## When to Use Hand-Written SVG Instead
 
-如果只需要展示表之间的依赖关系（不含字段），可用手写 SVG 结构图替代，
-每个表画成一个矩形节点，箭头表示外键方向。
+If you only need to show dependencies between tables (without fields), use a hand-written SVG structure diagram instead. Draw each table as a rect node, with arrows indicating foreign key direction.

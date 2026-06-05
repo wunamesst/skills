@@ -2,71 +2,73 @@
 name: svg-diagram
 description: >
   手写 SVG 绘制生产级技术图表。当用户要求画图、绘制流程、展示数据流转、画时序图、
-  画架构图、解释概念、绘制任何可视化图表时必须使用本 skill，即使用户没有明确说"画图"
-  也要主动判断是否适合用图表辅助说明。支持：时序图、流程图、结构图、ER 图、
-  交互图、示意图。比 Mermaid 更美观，支持深色模式，颜色有语义，不会翻车。
-  触发关键词：画图、绘图、时序图、流程图、架构图、数据流、示意图、可视化、
-  sequence diagram、flowchart、diagram、visualize、数据库结构、ER图。
+  画架构图、解释概念、绘制任何可视化图表时必须使用本 skill。
+  Production-grade hand-written SVG diagrams. Use when users request diagrams, flowcharts,
+  architecture diagrams, sequence diagrams, data flow, concept visualization, ERDs.
+  Supports: sequence, flowchart, structure, ERD, interactive, illustrative diagrams.
+  Dark mode support, semantic colors, better than Mermaid.
+  Triggers: 画图 绘图 时序图 流程图 架构图 数据流 示意图 可视化 ER图
+  diagram flowchart sequence architecture visualize ERD.
 ---
 
-# SVG Diagram Skill — 生产级手册
+# SVG Diagram Skill — Production-Grade Handbook
 
-每次画图前必须完整阅读本文件，然后参考 `references/` 目录获取完整示例代码。
-
----
-
-## 第一步：图类型决策
-
-**先判断图类型，再决定技术方案。**
-
-| 用户意图 | 图类型 | 技术方案 |
-|---------|-------|---------|
-| 消息交互、调用链、时序 | 时序图 | 手写 SVG |
-| 步骤流程、决策分支 | 流程图 | 手写 SVG |
-| 组件包含、系统架构 | 结构图 | 手写 SVG |
-| 解释抽象概念、机制原理 | 示意图 | HTML + 内嵌 SVG（可交互）|
-| 数据库表结构、ER 图 | ERD | mermaid.js（见 references/erd.md）|
-| 有状态切换、需要控件 | 交互图 | HTML widget（见 references/interactive.md）|
-
-**强制拆分规则（超出以下限制必须拆成多张图）：**
-- 时序图参与者 > 6 个 → 拆成「总览图 + 子流程图」
-- 横向流程节点 > 5 个 → 改竖向或拆分
-- 结构图嵌套 > 3 层 → 拆成「系统级 + 组件级」
-- 有循环的流程 → 禁止画环形，改用 HTML stepper（见 references/interactive.md）
+Read this entire file before drawing any diagram. Then consult `references/` for complete examples.
 
 ---
 
-## 第二步：画布与坐标系
+## Step 1: Diagram Type Decision
+
+**Determine the diagram type first, then choose the technical approach.**
+
+| User Intent | Type | Approach |
+|-------------|------|----------|
+| Message interaction, call chains, sequence | Sequence diagram | Hand-written SVG |
+| Step flows, decision branches | Flowchart | Hand-written SVG |
+| Component containment, system architecture | Structure diagram | Hand-written SVG |
+| Abstract concepts, mechanism explanation | Illustrative diagram | HTML + inline SVG (interactive) |
+| Database table structures, ER diagrams | ERD | mermaid.js (see references/erd.md) |
+| State transitions, controls needed | Interactive diagram | HTML widget (see references/interactive.md) |
+
+**Mandatory split rules (exceed these limits → split into multiple diagrams):**
+- Sequence participants > 6 → split into "overview + sub-flow"
+- Horizontal flow nodes > 5 → switch to vertical or split
+- Structure nesting > 3 levels → split into "system-level + component-level"
+- Flows with loops → never draw circular, use HTML stepper (see references/interactive.md)
+
+---
+
+## Step 2: Canvas & Coordinate System
 
 ```
-viewBox="0 0 680 {H}"    ← 680 是常量，绝对不能改
+viewBox="0 0 680 {H}"    ← 680 is a hard constant, never change it
 width="100%"
-role="img"               ← 无障碍必填
+role="img"               ← required for accessibility
 ```
 
-**H 的计算方法（按顺序执行）：**
-1. 先完成所有元素的坐标计算
-2. 找出 max_y = 所有元素中最大的 (y + height)
+**How to calculate H (execute in order):**
+1. Complete coordinate calculations for all elements first
+2. Find max_y = largest (y + height) across all elements
 3. H = max_y + 40
-4. 不允许估算，不允许"先写 600 再调"
+4. Never estimate, never "start with 600 and adjust"
 
-安全区：x ∈ [40, 640]，y ∈ [40, H-40]
+Safe zone: x ∈ [40, 640], y ∈ [40, H-40]
 
-**SVG 根元素模板：**
+**SVG root element template:**
 ```
 <svg width="100%" viewBox="0 0 680 {H}" role="img"
   xmlns="http://www.w3.org/2000/svg">
-  <title>图表标题</title>
-  <desc>一句话描述图表内容，供屏幕阅读器使用</desc>
+  <title>Diagram title</title>
+  <desc>One-line description for screen readers</desc>
   <defs>
     <style>
-      <!-- 从这里开始复制，只保留本图使用的 c-* 色阶（最多3个），删掉未使用的 -->
+      <!-- Copy from here; keep only c-* classes used (max 3), delete unused -->
       svg{font-family:"Anthropic Sans",-apple-system,system-ui,"Segoe UI",sans-serif}
       :root{--b:rgba(31,30,29,.3);--bg2:#F5F4ED;--s:#3D3D3A}
       .t{font-size:16px;font-weight:400;fill:var(--s)}
       .ts{font-size:12px;font-weight:400;fill:var(--s)}
       .th{font-size:14px;font-weight:500}
-      /* ---- 8 个色阶，选取本图使用的（最多3个）---- */
+      /* ---- 8 color classes; pick only the ones used (max 3) ---- */
       .c-teal>rect,.c-teal>circle,.c-teal>ellipse{fill:#E1F5EE;stroke:#0F6E56}
       .c-teal>.th{fill:#085041}.c-teal>.ts{fill:#0F6E56}
       .c-blue>rect,.c-blue>circle,.c-blue>ellipse{fill:#E6F1FB;stroke:#185FA5}
@@ -102,7 +104,7 @@ role="img"               ← 无障碍必填
         .c-red>rect,.c-red>circle,.c-red>ellipse{fill:#331212;stroke:#C04040}
         .c-red>.th{fill:#E07070}.c-red>.ts{fill:#C04040}
       }
-      <!-- 到这里结束复制 -->
+      <!-- End copy -->
     </style>
     <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5"
       markerWidth="6" markerHeight="6" orient="auto-start-reverse">
@@ -110,340 +112,340 @@ role="img"               ← 无障碍必填
         stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
     </marker>
   </defs>
-  <!-- 内容 -->
+  <!-- Content -->
 </svg>
 ```
 
-**关键：** `xmlns` 和 `<style>` 缺一不可。只保留本图使用的 `c-*` 色阶（最多 3 个），但 `@media` 深色模式反转中对应的色阶也必须同时保留。未使用的色阶直接删掉，不要留注释掉的无效代码。
+**Critical:** Both `xmlns` and `<style>` are mandatory. Keep only the `c-*` classes used in the diagram (max 3), but the corresponding dark-mode `@media` overrides for those classes must also be kept. Delete unused classes entirely — no commented-out dead code.
 
-`context-stroke` 使箭头头部自动继承线条颜色，禁止用其他方式定义箭头颜色。
-
----
-
-## 第三步：颜色系统
-
-### 色阶速查表
-
-| class | 语义 | 50 填充 | 600 描边 | 800 标题 | 600 副标题 |
-|-------|-----|--------|---------|---------|----------|
-| `c-teal` | 人物/用户/角色 | #E1F5EE | #0F6E56 | #085041 | #0F6E56 |
-| `c-blue` | 数据/信息/存储 | #E6F1FB | #185FA5 | #0C447C | #185FA5 |
-| `c-purple` | 处理/操作/逻辑 | #EEEDFE | #534AB7 | #3C3489 | #534AB7 |
-| `c-amber` | 外部系统/第三方 | #FAEEDA | #854F0B | #633806 | #854F0B |
-| `c-coral` | 异步/队列/任务 | #FAECE7 | #993C1D | #712B13 | #993C1D |
-| `c-gray` | 中性/结构/起止 | #F1EFE8 | #5F5E5A | #444441 | #5F5E5A |
-| `c-green` | 成功/完成/正向 | #EAF3DE | #3B6D11 | #27500A | #3B6D11 |
-| `c-red` | 错误/失败/警告 | #FCEBEB | #A32D2D | #791F1F | #A32D2D |
-
-### 颜色使用规则
-
-**必须遵守：**
-- 同类型节点用同一颜色（语义分组，不按顺序循环）
-- 每张图最多 3 个色阶
-- 标题文字用 800，副标题文字用 600，两档不能相同（否则层级感消失）
-- `c-*` 只加在 `<g>` 或 `<rect>`/`<circle>`/`<ellipse>` 上，**禁止加在 `<path>` 上**
-- `c-*` 使用直接子元素选择器，嵌套 `<g>` 会导致内层变黑，避免多层嵌套
-
-**深色模式规则（生产级关键）：**
-- 所有文字颜色必须用 CSS 变量（`var(--color-text-primary)` 等）或 `c-*` class 的自动反转
-- 禁止在文字上 hardcode hex 颜色（深色模式下不可见）
-- 连线颜色可以 hardcode hex（中间色调在两种模式下都可读，如 `#1D9E75`）
-- 唯一例外：物理场景图（画火焰、天空等真实颜色）可全部 hardcode，但必须同时提供 `@media (prefers-color-scheme: dark)` 变体
-- **混用陷阱**：hardcoded 背景 + `c-*` 前景 = 深色模式下只有一半反转，禁止混用
+`context-stroke` makes arrowheads auto-inherit line color. Never use any other method to define arrowhead color.
 
 ---
 
-## 第四步：精确字符宽度
+## Step 3: Color System
 
-**14px Anthropic Sans 实测宽度（用于计算矩形最小宽度）：**
+### Color Class Reference
 
-| 文字类型 | 每字符宽度 | 示例 |
-|---------|----------|------|
-| 英文大写 A-Z | ~10px | `AUTH` (4字) ≈ 40px |
-| 英文小写 a-z | ~7px | `token` (5字) ≈ 35px |
-| 混合英文 | ~8px/字符 | `Auth Service` (12字) ≈ 96px |
-| 数字 0-9 | ~8px | `200 OK` (6字) ≈ 48px |
-| 中文字符 | ~15px/字 | `数据流转` (4字) ≈ 60px |
-| 中英混合 | 分段估算 | `POST /login` ≈ 88px |
-| 特殊字符 `_/:` | ~6px | `user_id` ≈ 88px |
+| class | Semantic role | 50 Fill | 600 Stroke | 800 Title | 600 Subtitle |
+|-------|-------------|--------|---------|---------|----------|
+| `c-teal` | Person / user / actor | #E1F5EE | #0F6E56 | #085041 | #0F6E56 |
+| `c-blue` | Data / information / storage | #E6F1FB | #185FA5 | #0C447C | #185FA5 |
+| `c-purple` | Processing / operation / logic | #EEEDFE | #534AB7 | #3C3489 | #534AB7 |
+| `c-amber` | External system / third-party | #FAEEDA | #854F0B | #633806 | #854F0B |
+| `c-coral` | Async / queue / task | #FAECE7 | #993C1D | #712B13 | #993C1D |
+| `c-gray` | Neutral / structure / start-end | #F1EFE8 | #5F5E5A | #444441 | #5F5E5A |
+| `c-green` | Success / completion / positive | #EAF3DE | #3B6D11 | #27500A | #3B6D11 |
+| `c-red` | Error / failure / warning | #FCEBEB | #A32D2D | #791F1F | #A32D2D |
 
-**矩形最小宽度公式：**
+### Color Usage Rules
+
+**Must follow:**
+- Same-type nodes use the same color (group by semantic role, not by sequence)
+- Max 3 color classes per diagram
+- Title text uses 800 shade, subtitle text uses 600 shade — never identical (loses hierarchy)
+- `c-*` only on `<g>`, `<rect>`, `<circle>`, or `<ellipse>` — **never on `<path>`**
+- `c-*` uses direct-child selectors; nesting `<g>` tags breaks styling — avoid deep nesting
+
+**Dark mode rules (what separates production from toy):**
+- All text colors must use CSS variables or `c-*` class auto-inversion
+- Never hardcode hex on text (invisible in dark mode)
+- Line colors may use hardcoded hex (mid-tone values readable in both modes, e.g. `#1D9E75`)
+- Only exception: physical-scene diagrams (fire, sky, real-world colors) may hardcode everything, but must provide `@media (prefers-color-scheme: dark)` variants
+- **Mixing trap**: hardcoded background + `c-*` foreground = only half-inverts in dark mode. Never mix.
+
+---
+
+## Step 4: Precise Character Widths
+
+**Measured widths at 14px Anthropic Sans (used for calculating rect minimum width):**
+
+| Text type | Width per char | Example |
+|-----------|---------------|---------|
+| English uppercase A-Z | ~10px | `AUTH` (4 chars) ≈ 40px |
+| English lowercase a-z | ~7px | `token` (5 chars) ≈ 35px |
+| Mixed case English | ~8px/char | `Auth Service` (12 chars) ≈ 96px |
+| Digits 0-9 | ~8px | `200 OK` (6 chars) ≈ 48px |
+| Chinese characters | ~15px/char | `数据流转` (4 chars) ≈ 60px |
+| Mixed CJK + English | estimate per segment | `POST /login` ≈ 88px |
+| Special chars `_/:` | ~6px | `user_id` ≈ 88px |
+
+**Rect minimum width formula:**
 ```
-rect_min_width = max(标题宽度, 副标题宽度) + 48
-                                              ↑ 两侧各 24px 内边距
+rect_min_width = max(title_width, subtitle_width) + 48
+                                               ↑ 24px padding on each side
 ```
 
-**12px 副标题文字宽度 = 14px 估算值 × 0.86**
+**12px subtitle text width = 14px estimate × 0.86**
 
-**验证步骤（写每个矩形前必做）：**
-1. 找出该矩形内最长的文字
-2. 按类型估算渲染宽度
-3. 加 48px 得到最小宽度
-4. 如果矩形计划宽度 < 最小宽度，放大矩形或缩短文字
+**Verification steps (do before every rect):**
+1. Find the longest text string in that rect
+2. Estimate rendered width by type
+3. Add 48px for minimum width
+4. If planned rect width < minimum width, widen the rect or shorten the text
 
 ---
 
-## 第五步：各图类型规范
+## Step 5: Per-Type Specifications
 
-### 时序图
+### Sequence Diagram
 
-**x 坐标分配（按参与者数量）：**
+**X-coordinate allocation (by participant count):**
 
-| 数量 | 中心 x 坐标序列 |
-|------|--------------|
+| Count | Center X positions |
+|-------|-------------------|
 | 2 | 160, 520 |
 | 3 | 120, 340, 560 |
-| 4 | 90, 270, 450, 610 (盒子宽90) |
-| 5 | 65, 195, 330, 465, 600 (盒子宽80) |
-| 6 | 50, 160, 282, 390, 505, 621 (盒子宽90) |
+| 4 | 90, 270, 450, 610 (box width 90) |
+| 5 | 65, 195, 330, 465, 600 (box width 80) |
+| 6 | 50, 160, 282, 390, 505, 621 (box width 90) |
 
-参与者盒子高度固定 40px，rx=6。
+Participant box height fixed at 40px, rx=6.
 
-**生命线：**
+**Lifeline:**
 ```xml
 <line x1="{cx}" y1="60" x2="{cx}" y2="{H-60}"
   stroke="var(--b)" stroke-width="0.5" stroke-dasharray="4 3"/>
 ```
 
-**消息箭头（实线=主动调用，虚线=返回/异步）：**
+**Message arrows (solid = active call, dashed = return/async):**
 ```xml
-<!-- 主动调用 -->
+<!-- Active call -->
 <line x1="{from_cx}" y1="{y}" x2="{to_cx}" y2="{y}"
   stroke="{color}" stroke-width="1.5" marker-end="url(#arrow)"/>
 
-<!-- 返回响应 -->
+<!-- Return / response -->
 <line x1="{from_cx}" y1="{y}" x2="{to_cx}" y2="{y}"
   stroke="#888780" stroke-width="1" stroke-dasharray="5 3"
   marker-end="url(#arrow)"/>
 ```
 
-消息标签放在箭头上方 8px：`y="{arrow_y - 8}"`
+Message label placed 8px above the arrow: `y="{arrow_y - 8}"`
 
-**阶段分组背景：**
+**Phase group background:**
 ```xml
 <rect x="28" y="{group_y}" width="630" height="{group_h}"
   rx="4" fill="var(--bg2)" opacity="0.5"/>
-<text class="ts" x="36" y="{group_y + 16}" fill="var(--s)">① 阶段名</text>
+<text class="ts" x="36" y="{group_y + 16}" fill="var(--s)">① Phase name</text>
 ```
 
-**间距规范：**
-- 参与者头部底边到第一条消息：≥ 20px
-- 分组标题到组内第一条消息箭头：≥ 28px（避免标题与内容拥挤）
-- 相邻消息箭头之间：≥ 32px
-- 分组与分组之间额外增加：20px
-- 分组底部边距：≥ 20px（组内最后一条消息箭头到分组底边）
-- 最后一条消息到底部参与者：≥ 28px
+**Spacing rules:**
+- Participant head bottom to first message: ≥ 20px
+- Group title to first message arrow in group: ≥ 28px (avoid crowding)
+- Adjacent message arrows: ≥ 32px
+- Between groups, extra: 20px
+- Group bottom margin: ≥ 20px (last arrow to group bottom)
+- Last message to bottom participant: ≥ 28px
 
-**分组高度快速算法：**
+**Group height quick formula:**
 ```
 group_h = (n_msgs + 1) × 32 + 16
-  n_msgs = 组内消息数
-  示例：6 条消息 → group_h = 7×32+16 = 240
+  n_msgs = messages in group
+  Example: 6 messages → group_h = 7×32+16 = 240
 ```
 
-**y 坐标速查表（时序图常见场景，直接复用，无需手算）：**
+**Y-coordinate lookup table (common sequence scenarios—reuse directly, no manual calculation):**
 
-各组 y 已按间距规则预计算。使用时只需填入箭头 x 坐标和消息标签文字。
+All Y values pre-computed per spacing rules. Just fill in arrow X coordinates and message labels.
 
-单组场景（1 个分组，N 条消息）：
-| N | group_y | 各消息箭头 y | group_h | H（含底部参与者，top=group_y） |
+Single-group scenarios (1 group, N messages):
+| N | group_y | Message arrow Ys | group_h | H (with bottom participants, top=group_y) |
 |---|---------|-------------|---------|------|
 | 2 | 76 | 120, 152 | 96 | 340 |
 | 3 | 76 | 120, 152, 184 | 128 | 380 |
 | 4 | 76 | 120, 152, 184, 216 | 160 | 420 |
 | 5 | 76 | 120, 152, 184, 216, 248 | 192 | 460 |
 
-两组场景（2 个分组，N₁+N₂ 条消息）：
-| N₁+N₂ | group₁ y/h | group₂ y/h | 各消息箭头 y | H |
+Two-group scenarios (2 groups, N₁+N₂ messages):
+| N₁+N₂ | group₁ y/h | group₂ y/h | Message arrow Ys | H |
 |-------|------------|------------|-------------|----|
 | 2+3 | 76 / 96 | 192 / 128 | ① 120,152 → ② 236,268,300 | 460 |
 | 3+4 | 76 / 128 | 224 / 160 | ① 120,152,184 → ② 268,300,332,364 | 520 |
 | 4+4 | 76 / 160 | 256 / 160 | ① 120,152,184,216 → ② 300,332,364,396 | 560 |
 | 3+6 | 76 / 128 | 224 / 224 | ① 120,152,184 → ② 268,300,332,364,396,428 | 580 |
 
-底部参与者 y = 最后一个 group_y + group_h + 28
-H = 底部参与者 y + 40 + 40（向上取整到 10 的倍数）
+Bottom participant y = last group_y + group_h + 28
+H = bottom participant y + 40 + 40 (round up to nearest 10)
 
-超过两组或消息数不在表中的场景，用算法公式自行推导。
+For scenarios beyond two groups or outside the table, derive using the algorithm formula.
 
-### 流程图
+### Flowchart
 
-**节点标准尺寸：**
-- 单行节点：高 44px
-- 双行节点（标题 + 副标题）：高 56px
-- 决策菱形：用 `<polygon>` 绘制，宽约 120px，高约 60px
+**Standard node sizes:**
+- Single-line node: height 44px
+- Two-line node (title + subtitle): height 56px
+- Decision diamond: use `<polygon>`, width ~120px, height ~60px
 
-**双行节点文字定位：**
+**Two-line node text positioning:**
 ```xml
 <text class="th" x="{cx}" y="{rect_y + 19}"
-  text-anchor="middle" dominant-baseline="central">标题</text>
+  text-anchor="middle" dominant-baseline="central">Title</text>
 <text class="ts" x="{cx}" y="{rect_y + 38}"
-  text-anchor="middle" dominant-baseline="central">副标题</text>
+  text-anchor="middle" dominant-baseline="central">Subtitle</text>
 ```
 
-**横向布局宽度计算（必须提前算）：**
+**Horizontal layout width calculation (must compute upfront):**
 ```
-n 个节点，间距 gap=20：
+n nodes, gap = 20:
 total = n × node_w + (n-1) × gap
-需满足 total ≤ 600
+Must satisfy total ≤ 600
 node_w = (600 - (n-1) × 20) / n
 
 n=3 → node_w = (600-40)/3 = 186
 n=4 → node_w = (600-60)/4 = 135
-n=5 → node_w = (600-80)/5 = 104（文字会很挤，考虑竖向）
+n=5 → node_w = (600-80)/5 = 104 (too cramped, consider vertical)
 ```
 
-起始 x = (680 - total) / 2，保证水平居中。
+Start x = (680 - total) / 2, to center horizontally.
 
-**竖向箭头起止点（留 10px 间隙）：**
+**Vertical arrow endpoints (leave 10px gap):**
 ```
-上方节点出口：y1 = rect_y + rect_h + 10
-下方节点入口：y2 = rect_y - 10（配合 marker 后刚好贴边）
+Upper node exit: y1 = rect_y + rect_h + 10
+Lower node entry: y2 = rect_y - 10 (with marker, aligns flush to edge)
 ```
 
-**反向回流（L 形，禁止直线穿越其他节点）：**
+**Backward / return edge (L-shaped, never straight through other nodes):**
 ```xml
 <path d="M {x1} {y1} L {x_detour} {y1} L {x_detour} {y2} L {x2} {y2}"
   fill="none" stroke="#E24B4A" stroke-width="1"
   stroke-dasharray="5 3" marker-end="url(#arrow)"/>
 ```
 
-### 结构图
+### Structure Diagram
 
-**嵌套层级颜色必须不同色阶：**
-- 外层用浅色（如 `c-blue`）
-- 内层用对比色（如 `c-teal`、`c-amber`）
-- 同色阶嵌套会使层级感消失，这是生产级硬规则
+**Nested levels must use different color classes:**
+- Outer level: lighter color (e.g. `c-blue`)
+- Inner level: contrasting color (e.g. `c-teal`, `c-amber`)
+- Same-color nesting destroys hierarchy — this is a hard production rule
 
-**容器内边距：**
-- 外层容器内边距：≥ 24px
-- 内层区域之间间距：≥ 16px
-- 标签到容器边缘：≥ 12px
+**Container padding:**
+- Outer container padding: ≥ 24px
+- Inner region spacing: ≥ 16px
+- Label to container edge: ≥ 12px
 
-**外层容器模板：**
+**Outer container template:**
 ```xml
 <g class="c-blue">
   <rect x="80" y="30" width="560" height="240" rx="20" stroke-width="0.5"/>
   <text class="th" x="360" y="58" text-anchor="middle" dominant-baseline="central">
-    系统名称
+    System Name
   </text>
 </g>
 ```
 
-### 示意图（抽象概念解释）
+### Illustrative Diagram (abstract concepts)
 
-适用场景：解释工作原理、展示数据结构、呈现空间关系。
+Use when explaining how something works, showing data structures, or presenting spatial relationships.
 
-**核心原则：** 画机制本身，不画"关于机制的图"。颜色表示强度而非类别（暖色=活跃，冷色=静止）。
+**Core principle:** Draw the mechanism itself, not a "diagram about the mechanism." Color represents intensity, not category (warm = active, cool = static).
 
-**静态 SVG vs HTML 交互图决策：**
-- 有滑块、开关、点击状态 → HTML（见 references/interactive.md）
-- 纯展示、无需操控 → 静态 SVG
+**Static SVG vs. HTML Interactive decision:**
+- Has sliders, toggles, click states → HTML (see references/interactive.md)
+- Pure display, no interaction needed → static SVG
 
-详细规范和示例见 `references/illustrative.md`
+See `references/illustrative.md` for detailed specs and examples.
 
 ---
 
-## 第六步：深色模式完整规则
+## Step 6: Complete Dark Mode Rules
 
-这是生产级与学习级最大的区别。
+This is the biggest difference between production-grade and toy output.
 
-**安全用法（自动适配深色）：**
+**Safe usage (auto-adapts to dark mode):**
 ```xml
-<!-- c-* class：自动处理深浅模式 -->
+<!-- c-* classes: auto-handle light & dark -->
 <g class="c-blue">
   <rect .../>
-  <text class="th">标签</text>  <!-- 自动用正确颜色 -->
+  <text class="th">Label</text>  <!-- auto-correct color -->
 </g>
 
-<!-- CSS 变量：自动适配 -->
+<!-- CSS variables: auto-adapt -->
 <line stroke="var(--b)" .../>
 <rect fill="var(--bg2)" .../>
 ```
 
-**危险用法（会在深色模式下损坏）：**
+**Dangerous usage (breaks in dark mode):**
 ```xml
-<!-- 禁止：文字 hardcode hex -->
-<text fill="#333333">标签</text>  <!-- 深色背景下不可见 -->
+<!-- Forbidden: hardcoded hex on text -->
+<text fill="#333333">Label</text>  <!-- invisible on dark background -->
 
-<!-- 禁止：c-* 背景 + hardcode 文字混用 -->
+<!-- Forbidden: c-* background + hardcoded text -->
 <g class="c-blue">
   <rect .../>
-  <text fill="#333">标签</text>  <!-- 背景反转但文字不反转 -->
+  <text fill="#333">Label</text>  <!-- bg inverts, text doesn't -->
 </g>
 ```
 
-**连线颜色的安全 hex 值（中间色调，两种模式可读）：**
+**Safe hex values for line colors (mid-tone, readable in both modes):**
 ```
 #1D9E75  teal 400
-#534AB7  purple 400（用于紫色语义线）
+#534AB7  purple 400 (for purple-semantic lines)
 #185FA5  blue 600
 #BA7517  amber 400
 #993C1D  coral 600
-#888780  gray 400（通用中性线）
-#E24B4A  red 400（错误/回退路径）
+#888780  gray 400 (general neutral lines)
+#E24B4A  red 400 (error/fallback paths)
 ```
 
 ---
 
-## 第七步：连线防穿越指南
+## Step 7: Line Crossing Prevention
 
-每条连线画之前执行以下检查：
+Before drawing every line, perform these checks:
 
-**检查步骤：**
-1. 列出所有矩形的 bounding box：`{x, y, x+w, y+h}`
-2. 对比连线路径的 x、y 范围
-3. 如果直线路径的 x 范围与某矩形 x 范围重叠，且 y 范围也重叠 → 判定穿越
+**Checklist:**
+1. List all rect bounding boxes: `{x, y, x+w, y+h}`
+2. Compare line path X, Y ranges against each box
+3. If line X range overlaps a rect X range, AND Y range overlaps → crossing detected
 
-**穿越时的处理方案：**
+**Mitigation options:**
 
 ```xml
-<!-- 方案A：L 形折线绕右侧 -->
+<!-- Option A: L-shaped detour around right side -->
 <path d="M {x1} {y1} L {x1} {y_bypass} L {x2} {y_bypass} L {x2} {y2}"
   fill="none" stroke="..." marker-end="url(#arrow)"/>
 
-<!-- 方案B：从矩形左侧绕行 -->
+<!-- Option B: detour around left side -->
 <path d="M {x1} {y1} L {x_left-20} {y1} L {x_left-20} {y2} L {x2} {y2}"
   fill="none" stroke="..." marker-end="url(#arrow)"/>
 
-<!-- 方案C：标注替代连线（连线太复杂时） -->
-<!-- 在源节点和目标节点各放一个相同字母标记 -->
+<!-- Option C: symbolic cross-reference (when routing is too complex) -->
+<!-- Place matching letter markers at source and target -->
 <text class="ts" x="{x}" y="{y}">→ A</text>
 ```
 
-**时序图特殊规则：** 消息只能水平，不能斜向。如果两个参与者不相邻，消息仍是水平线，只是跨越更远。
+**Sequence diagram special rule:** Messages are strictly horizontal, never diagonal. If two participants aren't adjacent, the message is still horizontal, just spanning farther.
 
 ---
 
-## 第八步：画完必查（仅 5 项，覆盖最常见翻车场景）
+## Step 8: Post-Draw Checklist (5 items, covering the most common failures)
 
-按顺序逐项检查，不能跳过：
+Check in order — don't skip:
 
-- [ ] 根 `<svg>` 有 `xmlns="http://www.w3.org/2000/svg"`，`<defs>` 内有 `<style>` 块（含深色模式 `@media`）
-- [ ] viewBox H = max(元素 y+height) + 40，是计算值不是估算
-- [ ] 所有 `<text>` 都有 class（`th`/`ts`/`t`），节点内文字有 `dominant-baseline="central"`
-- [ ] 所有 `<path>` 连线都有 `fill="none"`
-- [ ] 每张图只有一个 `<svg>` 元素，有 `role="img"` + `<title>` + `<desc>`
+- [ ] Root `<svg>` has `xmlns="http://www.w3.org/2000/svg"`; `<defs>` contains `<style>` block (including dark-mode `@media`)
+- [ ] viewBox H = max(element y + height) + 40 — computed, not estimated
+- [ ] All `<text>` has a class (`th`/`ts`/`t`); text inside nodes has `dominant-baseline="central"`
+- [ ] All `<path>` lines have `fill="none"`
+- [ ] Single `<svg>` element per diagram, with `role="img"` + `<title>` + `<desc>`
 
-其余规范（文字不超出矩形、连线颜色用安全 hex、连线不穿越节点、单张图 ≤3 个色阶）在画的过程中自然遵守，无需事后逐项核查。
-
----
-
-## 参考文件索引
-
-| 文件 | 内容 | 何时读 |
-|------|------|-------|
-| `references/examples.md` | 时序图、流程图、结构图完整示例（含坐标） | 首次画该类型时参考 |
-| `references/erd.md` | mermaid.js ERD 完整模板 + 深色模式适配 | 画数据库关系图时 |
-| `references/interactive.md` | HTML 交互图模板（滑块、stepper、点击） | 需要交互控件时 |
-| `references/illustrative.md` | 示意图规范（抽象概念空间隐喻） | 解释原理/机制时 |
-| `references/embedded-styles.md` | 完整 CSS 样式参考（与 SKILL.md 第二步模板相同） | 备用参考，无需每次读 |
+Other rules (text not overflowing rects, line colors using safe hex, lines not crossing nodes, ≤ 3 color classes per diagram) are naturally enforced during drawing and don't need a separate post-check.
 
 ---
 
-## 输出方式
+## Reference File Index
 
-1. SVG 必须自包含：嵌入 `<style>`（从第二步模板复制，只保留本图用到的 c-* 色阶）+ `xmlns`
-2. 如有 `visualize:show_widget` 可用，传入完整 SVG 代码展示；否则写入 `.svg` 文件，用 `open` 命令在浏览器中查看
-3. HTML 交互图传完整 HTML 片段（不含 DOCTYPE/html/body 标签）
-4. 图前后用文字说明上下文
+| File | Content | When to Read |
+|------|---------|-------------|
+| `references/examples.md` | Complete sequence, flowchart, structure diagram examples (with coordinates) | First time drawing that type |
+| `references/erd.md` | mermaid.js ERD template + dark mode adaptation | Drawing ERDs |
+| `references/interactive.md` | HTML interactive widget templates (slider, stepper, click) | When interactive controls needed |
+| `references/illustrative.md` | Illustrative diagram spec (abstract concept spatial metaphor) | Explaining principles/mechanisms |
+| `references/embedded-styles.md` | Complete CSS style reference (same as Step 2 template above) | Backup reference, no need to read each time |
+
+---
+
+## Output Instructions
+
+1. SVG must be self-contained: embed `<style>` (copy from Step 2 template, keep only used `c-*` classes) + `xmlns`
+2. If `visualize:show_widget` is available, pass the full SVG code; otherwise write to `.svg` file and use `open` command to view in browser
+3. HTML interactive diagrams: pass the complete HTML fragment (no DOCTYPE/html/body tags)
+4. Add text context before and after the diagram to explain what it shows

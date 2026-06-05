@@ -1,41 +1,41 @@
-# 示意图（抽象概念 / 机制解释）
+# Illustrative Diagrams (Abstract Concepts / Mechanism Explanation)
 
-适用于：解释工作原理、展示抽象机制、让用户"看懂"而非"查文档"。
-不适用于：参考文档、需要精确标注的架构图。
-
----
-
-## 与普通流程图的核心区别
-
-| 普通流程图 | 示意图 |
-|----------|-------|
-| 颜色区分类别 | 颜色区分强度（暖=活跃，冷=静止）|
-| 矩形为主 | 形状随内容而定 |
-| 标签说明一切 | 空间位置本身传达含义 |
-| 静态文档 | 优先做成可交互版本 |
-
-**判断标准：** 把所有标签盖住，图还能传达核心意思吗？能 → 好的示意图。不能 → 退化成了流程图。
+Use for: explaining how something works, showing abstract mechanisms, helping users "understand" rather than "look up."
+Not for: reference documentation, architecture diagrams needing precise annotations.
 
 ---
 
-## 物理主题示意图
+## Core Difference from Regular Flowcharts
 
-适用：水循环、CPU 散热、电路、化学反应等有真实物理形态的主题。
+| Regular Flowchart | Illustrative Diagram |
+|-------------------|---------------------|
+| Color distinguishes categories | Color distinguishes intensity (warm=active, cool=static) |
+| Primarily rectangles | Shape follows content |
+| Labels explain everything | Spatial position itself conveys meaning |
+| Static document | Prioritize interactive version |
 
-**规则：**
-- 用 `<path>`、`<ellipse>`、`<polygon>` 画简化的物理外形
-- 颜色映射物理属性：暖色（amber/coral/red）= 热/能量，冷色（blue/teal）= 冷/稳定
-- 允许唯一例外的 `<linearGradient>`：表示连续物理属性（温度分层、压力梯度）
-  - 只能两个色止（stop），不能多段
-  - 只用于真正连续的物理量，不用于装饰
+**Litmus test:** Cover all labels — does the diagram still convey the core idea? Yes → good illustrative diagram. No → degraded into a flowchart.
 
-**颜色全部 hardcode（物理场景不跟主题走）：**
+---
+
+## Physical-Theme Illustrative Diagrams
+
+Use for: water cycle, CPU cooling, circuits, chemical reactions, and other topics with real physical forms.
+
+**Rules:**
+- Use `<path>`, `<ellipse>`, `<polygon>` to draw simplified physical shapes
+- Color maps to physical properties: warm colors (amber/coral/red) = heat/energy, cool colors (blue/teal) = cold/stable
+- Allowed unique exception for `<linearGradient>`: represents continuous physical properties (temperature stratification, pressure gradient)
+  - Only two color stops, no multi-stop gradients
+  - Only for genuinely continuous physical quantities, never for decoration
+
+**All colors hardcoded (physical scenes don't follow theme):**
 ```xml
-<!-- 物理场景：全部 hardcode hex，不用 c-* class -->
-<rect x="100" y="50" width="200" height="300" fill="#3B8BD4"/>  <!-- 冷水 -->
-<rect x="100" y="50" width="200" height="150" fill="#E8593C"/>  <!-- 热水 -->
+<!-- Physical scene: hardcode all hex values, don't use c-* classes -->
+<rect x="100" y="50" width="200" height="300" fill="#3B8BD4"/>  <!-- cold water -->
+<rect x="100" y="50" width="200" height="150" fill="#E8593C"/>  <!-- hot water -->
 
-<!-- 必须提供深色模式变体 -->
+<!-- Must provide dark mode variant -->
 <style>
 @media (prefers-color-scheme: dark) {
   .water-cold { fill: #1a5a8a; }
@@ -46,84 +46,84 @@
 
 ---
 
-## 抽象主题示意图
+## Abstract-Theme Illustrative Diagrams
 
-适用：注意力机制、哈希表、调用栈、梯度下降等抽象 CS 概念。
+Use for: attention mechanisms, hash tables, call stacks, gradient descent, and other abstract CS concepts.
 
-**核心技巧：发明一个让机制可见的空间隐喻。**
+**Core technique:** Invent a spatial metaphor that makes the mechanism visible.
 
-常见隐喻模式：
+Common metaphor patterns:
 
-| 概念 | 隐喻 |
-|------|------|
-| 注意力权重 | 从查询 token 发出的线，粗细=权重 |
-| 哈希函数 | 漏斗，多个 key 落入不同桶 |
-| 调用栈 | 字面意义的栈，帧叠叠往上长 |
-| 梯度下降 | 曲面 + 滚动的小球 + 轨迹 |
-| Transformer 层 | 横向叠放的板条，token 线穿过 |
-| 缓存命中率 | 两段颜色的进度条 |
+| Concept | Metaphor |
+|---------|----------|
+| Attention weights | Lines from query token, thickness = weight |
+| Hash function | Funnel, multiple keys falling into different buckets |
+| Call stack | Literal stack, frames growing upward |
+| Gradient descent | Surface + rolling ball + trajectory |
+| Transformer layers | Horizontal slats, token lines passing through |
+| Cache hit rate | Two-color progress bar |
 
-**颜色用强度，不用类别：**
+**Color represents intensity, not category:**
 ```xml
-<!-- 注意力权重：线的粗细和颜色深浅都表示权重 -->
+<!-- Attention weights: line thickness and color depth both represent weight -->
 <line x1="340" y1="230" x2="116" y2="146" stroke="#EF9F27"
-  stroke-width="1" opacity="0.25"/>   <!-- 低权重 -->
+  stroke-width="1" opacity="0.25"/>   <!-- low weight -->
 <line x1="340" y1="230" x2="340" y2="146" stroke="#EF9F27"
-  stroke-width="4" opacity="1.0"/>    <!-- 高权重 -->
+  stroke-width="4" opacity="1.0"/>    <!-- high weight -->
 ```
 
 ---
 
-## 优先做交互版本的判断
+## Deciding When to Build Interactive Versions
 
-问自己：**这个概念有"旋钮"吗？**
+Ask yourself: **Does this concept have a "knob"?**
 
-- 水加热 → 温度旋钮 → 做交互
-- 注意力机制 → 点击 token 切换查询 → 做交互
-- 梯度下降 → learning rate 滑块 → 做交互
-- 哈希表 → 输入不同 key 看落桶 → 做交互
-- 静态架构关系 → 没有旋钮 → 静态 SVG 即可
+- Heating water → temperature knob → make it interactive
+- Attention mechanism → click a token to switch query → make it interactive
+- Gradient descent → learning rate slider → make it interactive
+- Hash table → input different keys to see bucket placement → make it interactive
+- Static architecture relationships → no knob → static SVG is fine
 
-交互版用 `references/interactive.md` 的 HTML 模板。
+Use the HTML templates in `references/interactive.md` for interactive versions.
 
 ---
 
-## 标签放置规则
+## Label Placement Rules
 
 ```
-优先级：右侧留白区 > 底部 > 左侧 > 顶部 > 内部（仅大区域）
+Priority: right margin > bottom > left > top > inside (large regions only)
 
-右侧标签（推荐）：
-  x = 图形右边界 + 20~30px（text-anchor="start"）
-  用 leader 线（0.5px 虚线）指向对应部位
+Right-side labels (recommended):
+  x = shape right edge + 20~30px (text-anchor="start")
+  Use leader line (0.5px dashed) pointing to corresponding part
 
-左侧标签（次选）：
-  必须检查 label_chars × 8 < anchor_x，防止超出 x=0
-  改用 text-anchor="start" 并右移起点更安全
+Left-side labels (secondary):
+  Must verify label_chars × 8 < anchor_x, to avoid exceeding x=0
+  Safer to shift start point right with text-anchor="start"
 
-内部标签（仅限大区域）：
-  区域宽度 > 200px，高度 > 60px 才放内部标签
-  标签到区域边缘 ≥ 20px
+Inside labels (large regions only):
+  Region width > 200px, height > 60px before placing inside labels
+  Label to region edge ≥ 20px
 ```
 
-leader 线模板：
+Leader line template:
 ```xml
 <line class="leader" x1="{point_x}" y1="{point_y}"
   x2="{label_x-4}" y2="{label_y}"/>
 <circle cx="{point_x}" cy="{point_y}" r="2" fill="var(--t)"/>
 <text class="ts" x="{label_x}" y="{label_y}"
-  text-anchor="start">{标签文字}</text>
+  text-anchor="start">{Label text}</text>
 ```
 
 ---
 
-## 示意图示例：注意力权重可视化
+## Illustrative Diagram Example: Attention Weight Visualization
 
 ```xml
 <svg width="100%" viewBox="0 0 680 320" role="img"
   xmlns="http://www.w3.org/2000/svg">
-  <title>Transformer 注意力权重示意</title>
-  <desc>sat 这个 token 对其他所有 token 的注意力权重，线越粗权重越高</desc>
+  <title>Transformer Attention Weight Illustration</title>
+  <desc>Attention weights from token "sat" to all other tokens; thicker lines = higher weight</desc>
   <defs>
     <style>
       svg{font-family:"Anthropic Sans",-apple-system,system-ui,"Segoe UI",sans-serif}
@@ -154,28 +154,28 @@ leader 线模板：
     </marker>
   </defs>
 
-  <!-- Transformer 层（横向板条） -->
+  <!-- Transformer layers (horizontal slats) -->
   <g class="c-purple">
     <rect x="60" y="40"  width="560" height="24" rx="4" stroke-width="0.5"/>
-    <text class="ts" x="72" y="52" dominant-baseline="central">第 3 层</text>
+    <text class="ts" x="72" y="52" dominant-baseline="central">Layer 3</text>
   </g>
   <g class="c-purple">
     <rect x="60" y="76"  width="560" height="24" rx="4" stroke-width="0.5"/>
-    <text class="ts" x="72" y="88" dominant-baseline="central">第 2 层</text>
+    <text class="ts" x="72" y="88" dominant-baseline="central">Layer 2</text>
   </g>
   <g class="c-purple">
     <rect x="60" y="112" width="560" height="24" rx="4" stroke-width="0.5"/>
-    <text class="ts" x="72" y="124" dominant-baseline="central">第 1 层</text>
+    <text class="ts" x="72" y="124" dominant-baseline="central">Layer 1</text>
   </g>
 
-  <!-- 注意力线（粗细+透明度表示权重） -->
+  <!-- Attention lines (thickness + opacity = weight) -->
   <line x1="340" y1="210" x2="116" y2="136" stroke="#EF9F27" stroke-width="1"   opacity="0.25" stroke-linecap="round"/>
   <line x1="340" y1="210" x2="228" y2="136" stroke="#EF9F27" stroke-width="1.5" opacity="0.40" stroke-linecap="round"/>
   <line x1="340" y1="210" x2="340" y2="136" stroke="#EF9F27" stroke-width="4"   opacity="1.0"  stroke-linecap="round"/>
   <line x1="340" y1="210" x2="452" y2="136" stroke="#EF9F27" stroke-width="2.5" opacity="0.70" stroke-linecap="round"/>
   <line x1="340" y1="210" x2="564" y2="136" stroke="#EF9F27" stroke-width="1"   opacity="0.20" stroke-linecap="round"/>
 
-  <!-- Token 行 -->
+  <!-- Token row -->
   <g class="c-gray">
     <rect x="80"  y="196" width="72" height="36" rx="6" stroke-width="0.5"/>
     <text class="ts" x="116" y="214" text-anchor="middle" dominant-baseline="central">the</text>
@@ -197,9 +197,9 @@ leader 线模板：
     <text class="ts" x="564" y="214" text-anchor="middle" dominant-baseline="central">the</text>
   </g>
 
-  <!-- 说明（在图形空白区，不与线条重叠） -->
+  <!-- Annotation (in clear area, not overlapping lines) -->
   <text class="ts" x="340" y="280" text-anchor="middle">
-    线条粗细 = "sat" 对各 token 的注意力权重
+    Line thickness = attention weight from "sat" to each token
   </text>
 </svg>
 ```

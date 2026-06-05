@@ -8,19 +8,34 @@ This is a skills registry — a collection of pluggable skill modules for AI cod
 
 ## Skill Structure
 
-Every skill follows this layout:
+Every skill follows the standard layout:
 
 ```
 <skill-name>/
   SKILL.md          # Entry point — YAML frontmatter (name, description) + full instructions
   references/       # Supplementary docs, templates, examples referenced by SKILL.md
-  demo/             # Demo assets showcasing the skill's output
+  assets/           # Bundled resources used in output (templates, icons, fonts) — optional
+  scripts/          # Executable code for deterministic/repetitive tasks — optional
 ```
 
 - `SKILL.md` is the authoritative file. Frontmatter `name` and `description` fields are used by the skill loader for discovery and matching.
 - The `description` in frontmatter should include Chinese trigger keywords when the skill targets Chinese-speaking users.
 - Reference files are loaded on-demand by `SKILL.md`, not auto-loaded — keep them focused on specific sub-topics.
-- The `demo/` directory is for static demo assets; keep it empty if unused.
+- Skill directories must follow the standard structure above. Never add project-specific directories (like `demo/`) inside skill directories — those belong in the repo-level `output/` directory.
+
+## Skill Output Convention
+
+All skill-generated files during development (diagrams, HTML widgets, etc.) go into the repo-level `output/` directory:
+
+```
+output/
+  <name>.svg            # SVG diagrams
+  <name>.html           # HTML interactive widgets
+```
+
+- Write all generated files to `output/`, never into skill directories themselves or arbitrary locations.
+- Use descriptive filenames (e.g., `oauth2-flow.svg`, not `diagram1.svg`).
+- After writing, use `open` to view in browser for verification.
 
 ## Current Skills
 
@@ -45,22 +60,14 @@ Key design invariants:
 - Text on nodes must use `c-*` classes for automatic dark-mode support; hardcoded hex is only allowed on connecting lines (mid-tone safe values listed in SKILL.md §6)
 - ERDs use mermaid.js, everything else is hand-written SVG
 
-### Demo Assets
-
-5 demo SVGs in `demo/` — each is a standalone SVG that renders correctly when opened directly in a browser.
-
-| Demo | Type | Participants | Description |
-|------|------|-------------|-------------|
-| `demo/ddd-architecture.svg` | 结构图 | — | DDD 四层架构 + 外部依赖 |
-
 ## Adding a New Skill
 
 1. Create `<skill-name>/SKILL.md` with YAML frontmatter (`---`, `name`, `description`) and the full instruction body.
 2. Add `<skill-name>/references/` for any supplementary files the skill needs to reference.
-3. Add `<skill-name>/demo/` only if the skill ships with demo assets.
+3. Add `<skill-name>/assets/` or `<skill-name>/scripts/` only if the skill bundles resources or executable code.
 4. No registration step — skills are auto-discovered by the runtime scanning for `SKILL.md` files.
 
 ## Repo Layout Notes
 
+- `output/` — All skill-generated files during development. Git-ignored.
 - `.claude/skills/` — Claude Code skill symlinks for local development.
-- Each skill's `demo/` directory contains standalone demo assets that illustrate the skill's output.
