@@ -53,20 +53,56 @@ role="img"               ← 无障碍必填
 安全区：x ∈ [40, 640]，y ∈ [40, H-40]
 
 **SVG 根元素模板：**
-```xml
+```
 <svg width="100%" viewBox="0 0 680 {H}" role="img"
   xmlns="http://www.w3.org/2000/svg">
   <title>图表标题</title>
   <desc>一句话描述图表内容，供屏幕阅读器使用</desc>
   <defs>
     <style>
+      <!-- 从这里开始复制，只保留本图使用的 c-* 色阶（最多3个），删掉未使用的 -->
       svg{font-family:"Anthropic Sans",-apple-system,system-ui,"Segoe UI",sans-serif}
       :root{--b:rgba(31,30,29,.3);--bg2:#F5F4ED;--s:#3D3D3A}
       .t{font-size:16px;font-weight:400;fill:var(--s)}
       .ts{font-size:12px;font-weight:400;fill:var(--s)}
       .th{font-size:14px;font-weight:500}
-      /* ← 仅包含本图使用的 c-* 色阶（最多3个）
-           完整色阶样式见 references/embedded-styles.md */
+      /* ---- 8 个色阶，选取本图使用的（最多3个）---- */
+      .c-teal>rect,.c-teal>circle,.c-teal>ellipse{fill:#E1F5EE;stroke:#0F6E56}
+      .c-teal>.th{fill:#085041}.c-teal>.ts{fill:#0F6E56}
+      .c-blue>rect,.c-blue>circle,.c-blue>ellipse{fill:#E6F1FB;stroke:#185FA5}
+      .c-blue>.th{fill:#0C447C}.c-blue>.ts{fill:#185FA5}
+      .c-purple>rect,.c-purple>circle,.c-purple>ellipse{fill:#EEEDFE;stroke:#534AB7}
+      .c-purple>.th{fill:#3C3489}.c-purple>.ts{fill:#534AB7}
+      .c-amber>rect,.c-amber>circle,.c-amber>ellipse{fill:#FAEEDA;stroke:#854F0B}
+      .c-amber>.th{fill:#633806}.c-amber>.ts{fill:#854F0B}
+      .c-coral>rect,.c-coral>circle,.c-coral>ellipse{fill:#FAECE7;stroke:#993C1D}
+      .c-coral>.th{fill:#712B13}.c-coral>.ts{fill:#993C1D}
+      .c-gray>rect,.c-gray>circle,.c-gray>ellipse{fill:#F1EFE8;stroke:#5F5E5A}
+      .c-gray>.th{fill:#444441}.c-gray>.ts{fill:#5F5E5A}
+      .c-green>rect,.c-green>circle,.c-green>ellipse{fill:#EAF3DE;stroke:#3B6D11}
+      .c-green>.th{fill:#27500A}.c-green>.ts{fill:#3B6D11}
+      .c-red>rect,.c-red>circle,.c-red>ellipse{fill:#FCEBEB;stroke:#A32D2D}
+      .c-red>.th{fill:#791F1F}.c-red>.ts{fill:#A32D2D}
+      @media(prefers-color-scheme:dark){
+        :root{--b:rgba(224,225,226,.3);--bg2:#2A2A28;--s:#B0B0AD}
+        .c-teal>rect,.c-teal>circle,.c-teal>ellipse{fill:#0B2E24;stroke:#2DB88A}
+        .c-teal>.th{fill:#5DC9A3}.c-teal>.ts{fill:#2DB88A}
+        .c-blue>rect,.c-blue>circle,.c-blue>ellipse{fill:#0D2640;stroke:#3A8CD0}
+        .c-blue>.th{fill:#7AB8E8}.c-blue>.ts{fill:#3A8CD0}
+        .c-purple>rect,.c-purple>circle,.c-purple>ellipse{fill:#1E1C3D;stroke:#7A70D0}
+        .c-purple>.th{fill:#ADA5F0}.c-purple>.ts{fill:#7A70D0}
+        .c-amber>rect,.c-amber>circle,.c-amber>ellipse{fill:#33230A;stroke:#C49020}
+        .c-amber>.th{fill:#E0B850}.c-amber>.ts{fill:#C49020}
+        .c-coral>rect,.c-coral>circle,.c-coral>ellipse{fill:#331510;stroke:#C05838}
+        .c-coral>.th{fill:#E08868}.c-coral>.ts{fill:#C05838}
+        .c-gray>rect,.c-gray>circle,.c-gray>ellipse{fill:#252523;stroke:#8E8D88}
+        .c-gray>.th{fill:#B0B0AD}.c-gray>.ts{fill:#8E8D88}
+        .c-green>rect,.c-green>circle,.c-green>ellipse{fill:#152D08;stroke:#5A9E20}
+        .c-green>.th{fill:#80C040}.c-green>.ts{fill:#5A9E20}
+        .c-red>rect,.c-red>circle,.c-red>ellipse{fill:#331212;stroke:#C04040}
+        .c-red>.th{fill:#E07070}.c-red>.ts{fill:#C04040}
+      }
+      <!-- 到这里结束复制 -->
     </style>
     <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5"
       markerWidth="6" markerHeight="6" orient="auto-start-reverse">
@@ -78,8 +114,7 @@ role="img"               ← 无障碍必填
 </svg>
 ```
 
-**关键：** `xmlns` 和 `<style>` 缺一不可，否则浏览器直接打开 SVG 文件时会显示为 XML 文本且无样式。
-每个 `c-*` 色阶对应的 CSS 规则从 `references/embedded-styles.md` 复制，必须包含 `@media(prefers-color-scheme:dark)` 深色模式反转。
+**关键：** `xmlns` 和 `<style>` 缺一不可。只保留本图使用的 `c-*` 色阶（最多 3 个），但 `@media` 深色模式反转中对应的色阶也必须同时保留。未使用的色阶直接删掉，不要留注释掉的无效代码。
 
 `context-stroke` 使箭头头部自动继承线条颜色，禁止用其他方式定义箭头颜色。
 
@@ -130,7 +165,7 @@ role="img"               ← 无障碍必填
 | 数字 0-9 | ~8px | `200 OK` (6字) ≈ 48px |
 | 中文字符 | ~15px/字 | `数据流转` (4字) ≈ 60px |
 | 中英混合 | 分段估算 | `POST /login` ≈ 88px |
-| 特殊字符 `_/:` | ~6px | `tutor_video` ≈ 88px |
+| 特殊字符 `_/:` | ~6px | `user_id` ≈ 88px |
 
 **矩形最小宽度公式：**
 ```
@@ -202,9 +237,34 @@ rect_min_width = max(标题宽度, 副标题宽度) + 48
 **分组高度快速算法：**
 ```
 group_h = (n_msgs + 1) × 32 + 16
-  其中 n_msgs = 组内消息数，+1 留给标题到第一条消息的空间，+16 留给底部边距
-  示例：组内有 6 条消息 → group_h = 7 × 32 + 16 = 240
+  n_msgs = 组内消息数
+  示例：6 条消息 → group_h = 7×32+16 = 240
 ```
+
+**y 坐标速查表（时序图常见场景，直接复用，无需手算）：**
+
+各组 y 已按间距规则预计算。使用时只需填入箭头 x 坐标和消息标签文字。
+
+单组场景（1 个分组，N 条消息）：
+| N | group_y | 各消息箭头 y | group_h | H（含底部参与者，top=group_y） |
+|---|---------|-------------|---------|------|
+| 2 | 76 | 120, 152 | 96 | 340 |
+| 3 | 76 | 120, 152, 184 | 128 | 380 |
+| 4 | 76 | 120, 152, 184, 216 | 160 | 420 |
+| 5 | 76 | 120, 152, 184, 216, 248 | 192 | 460 |
+
+两组场景（2 个分组，N₁+N₂ 条消息）：
+| N₁+N₂ | group₁ y/h | group₂ y/h | 各消息箭头 y | H |
+|-------|------------|------------|-------------|----|
+| 2+3 | 76 / 96 | 192 / 128 | ① 120,152 → ② 236,268,300 | 460 |
+| 3+4 | 76 / 128 | 224 / 160 | ① 120,152,184 → ② 268,300,332,364 | 520 |
+| 4+4 | 76 / 160 | 256 / 160 | ① 120,152,184,216 → ② 300,332,364,396 | 560 |
+| 3+6 | 76 / 128 | 224 / 224 | ① 120,152,184 → ② 268,300,332,364,396,428 | 580 |
+
+底部参与者 y = 最后一个 group_y + group_h + 28
+H = 底部参与者 y + 40 + 40（向上取整到 10 的倍数）
+
+超过两组或消息数不在表中的场景，用算法公式自行推导。
 
 ### 流程图
 
@@ -355,33 +415,17 @@ n=5 → node_w = (600-80)/5 = 104（文字会很挤，考虑竖向）
 
 ---
 
-## 第八步：画完必做检查表
+## 第八步：画完必查（仅 5 项，覆盖最常见翻车场景）
 
 按顺序逐项检查，不能跳过：
 
-**坐标与布局：**
-- [ ] viewBox H = 最后元素 max(y+height) + 40，是计算值不是估算
-- [ ] 同行所有矩形总宽（含间距）≤ 600px，实际算过
-- [ ] text-anchor="end" 的最小 x > 文字估算宽度（防止超出左边界）
-- [ ] 没有任何连线穿过不相关的矩形（逐条检查过）
-
-**文字：**
-- [ ] 所有 `<text>` 都有 class（`t` / `ts` / `th`），没有裸 text
-- [ ] 所有节点内文字加了 `dominant-baseline="central"`
-- [ ] 没有文字超出其所在矩形右边界（宽度算过）
-
-**颜色与深色模式：**
-- [ ] 节点文字全部用 `c-*` class 自动处理，没有 hardcode hex
-- [ ] 连线颜色用安全 hex 值（见第六步列表）
-- [ ] 没有 hardcode 背景 + `c-*` 前景混用
-
-**SVG 规范：**
-- [ ] 根 `<svg>` 有 `xmlns="http://www.w3.org/2000/svg"`（否则浏览器当 XML 显示）
-- [ ] `<defs>` 内有 `<style>` 块（含 CSS 变量、文字 class、使用的 c-* 色阶 + 深色模式）
+- [ ] 根 `<svg>` 有 `xmlns="http://www.w3.org/2000/svg"`，`<defs>` 内有 `<style>` 块（含深色模式 `@media`）
+- [ ] viewBox H = max(元素 y+height) + 40，是计算值不是估算
+- [ ] 所有 `<text>` 都有 class（`th`/`ts`/`t`），节点内文字有 `dominant-baseline="central"`
 - [ ] 所有 `<path>` 连线都有 `fill="none"`
-- [ ] `<defs>` 里有 arrow marker
-- [ ] 根 `<svg>` 有 `role="img"`、`<title>`、`<desc>`
-- [ ] 每张图只有一个 `<svg>` 元素
+- [ ] 每张图只有一个 `<svg>` 元素，有 `role="img"` + `<title>` + `<desc>`
+
+其余规范（文字不超出矩形、连线颜色用安全 hex、连线不穿越节点、单张图 ≤3 个色阶）在画的过程中自然遵守，无需事后逐项核查。
 
 ---
 
@@ -389,18 +433,17 @@ n=5 → node_w = (600-80)/5 = 104（文字会很挤，考虑竖向）
 
 | 文件 | 内容 | 何时读 |
 |------|------|-------|
-| `references/embedded-styles.md` | 完整内嵌 CSS 样式模板（色阶 + 深色模式） | **每次画图前必读** |
-| `references/examples.md` | 时序图、流程图、结构图完整示例 | 画对应图类型时 |
+| `references/examples.md` | 时序图、流程图、结构图完整示例（含坐标） | 首次画该类型时参考 |
 | `references/erd.md` | mermaid.js ERD 完整模板 + 深色模式适配 | 画数据库关系图时 |
 | `references/interactive.md` | HTML 交互图模板（滑块、stepper、点击） | 需要交互控件时 |
 | `references/illustrative.md` | 示意图规范（抽象概念空间隐喻） | 解释原理/机制时 |
+| `references/embedded-styles.md` | 完整 CSS 样式参考（与 SKILL.md 第二步模板相同） | 备用参考，无需每次读 |
 
 ---
 
 ## 输出方式
 
-1. SVG 必须自包含：嵌入 `<style>` + `xmlns`，浏览器直接打开即可渲染
-2. 画图前先读取 `references/embedded-styles.md` 获取完整 CSS 色阶模板
-3. 如有 `visualize:show_widget` 可用，传入完整 SVG 代码展示
-4. HTML 交互图传完整 HTML 片段（不含 DOCTYPE/html/body 标签）
-5. 图前后用文字说明上下文，不要连续调用两次 show_widget 不加文字
+1. SVG 必须自包含：嵌入 `<style>`（从第二步模板复制，只保留本图用到的 c-* 色阶）+ `xmlns`
+2. 如有 `visualize:show_widget` 可用，传入完整 SVG 代码展示；否则写入 `.svg` 文件，用 `open` 命令在浏览器中查看
+3. HTML 交互图传完整 HTML 片段（不含 DOCTYPE/html/body 标签）
+4. 图前后用文字说明上下文

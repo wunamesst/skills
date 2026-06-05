@@ -14,7 +14,7 @@ Every skill follows this layout:
 <skill-name>/
   SKILL.md          # Entry point — YAML frontmatter (name, description) + full instructions
   references/       # Supplementary docs, templates, examples referenced by SKILL.md
-  demo/             # Optional demo assets (currently empty for svg-diagram)
+  demo/             # Demo assets showcasing the skill's output
 ```
 
 - `SKILL.md` is the authoritative file. Frontmatter `name` and `description` fields are used by the skill loader for discovery and matching.
@@ -32,7 +32,7 @@ Architecture: `SKILL.md` is a multi-step procedural handbook (type decision → 
 
 | Reference | Purpose |
 |-----------|---------|
-| `references/embedded-styles.md` | Complete embedded CSS style block (color classes + dark mode) — **must read before drawing** |
+| `references/embedded-styles.md` | Complete embedded CSS style block (color classes + dark mode) — redundant with SKILL.md step 2, kept for reference |
 | `references/examples.md` | Full SVG code for sequence, flow, and structure diagrams |
 | `references/erd.md` | Mermaid.js ERD template with dark-mode and rounded-corner post-processing |
 | `references/interactive.md` | HTML widget templates: stepper, slider, clickable nodes, animation |
@@ -40,10 +40,18 @@ Architecture: `SKILL.md` is a multi-step procedural handbook (type decision → 
 
 Key design invariants:
 - Canvas width is always `viewBox="0 0 680 {H}"` — 680 is a hard constant
-- Every SVG must include `xmlns="http://www.w3.org/2000/svg"` and an embedded `<style>` block (from `references/embedded-styles.md`) for standalone browser rendering
+- Every SVG must include `xmlns="http://www.w3.org/2000/svg"` and an embedded `<style>` block (CSS template in SKILL.md step 2) for standalone browser rendering
 - Max 3 color classes (`c-*`) per diagram, chosen by semantic role not sequence
 - Text on nodes must use `c-*` classes for automatic dark-mode support; hardcoded hex is only allowed on connecting lines (mid-tone safe values listed in SKILL.md §6)
 - ERDs use mermaid.js, everything else is hand-written SVG
+
+### Demo Assets
+
+5 demo SVGs in `demo/` — each is a standalone SVG that renders correctly when opened directly in a browser.
+
+| Demo | Type | Participants | Description |
+|------|------|-------------|-------------|
+| `demo/ddd-architecture.svg` | 结构图 | — | DDD 四层架构 + 外部依赖 |
 
 ## Adding a New Skill
 
@@ -54,5 +62,5 @@ Key design invariants:
 
 ## Repo Layout Notes
 
-- `svg-diagram-demo/` — static SVG demo assets (overview, detail, introduce) for showcasing the svg-diagram skill; not part of the skill runtime.
 - `.claude/skills/` — Claude Code skill symlinks for local development.
+- Each skill's `demo/` directory contains standalone demo assets that illustrate the skill's output.
