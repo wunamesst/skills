@@ -1,0 +1,72 @@
+# ==========================================
+# 1. 操作系统与本地 IDE / 编辑器缓存 (macOS & VSCode)
+# ==========================================
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+.Spotlight-V100
+.Trashes
+
+# VSCode 个人及工作区缓存（保留项目级配置，忽略本地历史与状态）
+.vscode/*
+!.vscode/settings.json
+!.vscode/tasks.json
+!.vscode/launch.json
+!.vscode/extensions.json
+.history/
+*.log
+
+# ==========================================
+# 2. Claude Code & OpenCode 等 CLI 运行时生成的本地缓存
+# ==========================================
+# 忽略运行 claude code 时在子目录下意外生成的本地配置与会话历史
+.claude/
+.anthropic/
+.opencode/
+.codex/
+
+# 忽略 Claude Code 或 Agent 生成的临时调试/慢日志 (如 Swoole / Agent 慢日志)
+*-slow.log
+*.error.log
+claude-debug.log
+
+# ==========================================
+# 3. AI 插件 / 智能体（Agentic AI）运行时与内存系统
+# ==========================================
+# 各种 AI 编码工具、Claude Code、OpenClaw 或其他 Agent 的本地状态与记忆库
+.claudecode/
+.openclaw/
+.mcp/
+.cline/
+.roo/
+.cursor/
+
+# 记忆系统缓存（如 Mem0, claude-mem 或本地向量库缓存）
+.memory/
+.mem0/
+__pycache__/
+*.pyc
+
+# ==========================================
+# 4. 敏感数据与凭证（防泄漏重中之重）
+# ==========================================
+# 绝对不能提交的 API Keys、Token 申请草稿、身份凭证
+.env
+.env.*
+!.env.example
+*.pem
+*.key
+credentials.json
+token-plan-secret.*
+
+# ==========================================
+# 5. 依赖包与构建产物（如未来需要扩展打包）
+# ==========================================
+node_modules/
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.pnpm-debug.log*
+dist/
+build/
