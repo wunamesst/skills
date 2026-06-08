@@ -62,46 +62,46 @@ Safe zone: x ∈ [40, 640], y ∈ [40, H-40]
   <desc>One-line description for screen readers</desc>
   <defs>
     <style>
-      <!-- Copy from here; keep only c-* classes used (max 3), delete unused -->
+      <!-- Copy from here; keep only c-* classes used, delete unused -->
       svg{font-family:"Anthropic Sans",-apple-system,system-ui,"Segoe UI",sans-serif}
       :root{--b:rgba(31,30,29,.3);--bg2:#F5F4ED;--s:#3D3D3A}
       .t{font-size:16px;font-weight:400;fill:var(--s)}
       .ts{font-size:12px;font-weight:400;fill:var(--s)}
       .th{font-size:14px;font-weight:500}
       /* ---- 8 color classes; pick only the ones used (max 3) ---- */
-      .c-teal>rect,.c-teal>circle,.c-teal>ellipse{fill:#E1F5EE;stroke:#0F6E56}
+      .c-teal>rect,.c-teal>polygon,.c-teal>circle,.c-teal>ellipse{fill:#E1F5EE;stroke:#0F6E56}
       .c-teal>.th{fill:#085041}.c-teal>.ts{fill:#0F6E56}
-      .c-blue>rect,.c-blue>circle,.c-blue>ellipse{fill:#E6F1FB;stroke:#185FA5}
+      .c-blue>rect,.c-blue>polygon,.c-blue>circle,.c-blue>ellipse{fill:#E6F1FB;stroke:#185FA5}
       .c-blue>.th{fill:#0C447C}.c-blue>.ts{fill:#185FA5}
-      .c-purple>rect,.c-purple>circle,.c-purple>ellipse{fill:#EEEDFE;stroke:#534AB7}
+      .c-purple>rect,.c-purple>polygon,.c-purple>circle,.c-purple>ellipse{fill:#EEEDFE;stroke:#534AB7}
       .c-purple>.th{fill:#3C3489}.c-purple>.ts{fill:#534AB7}
-      .c-amber>rect,.c-amber>circle,.c-amber>ellipse{fill:#FAEEDA;stroke:#854F0B}
+      .c-amber>rect,.c-amber>polygon,.c-amber>circle,.c-amber>ellipse{fill:#FAEEDA;stroke:#854F0B}
       .c-amber>.th{fill:#633806}.c-amber>.ts{fill:#854F0B}
-      .c-coral>rect,.c-coral>circle,.c-coral>ellipse{fill:#FAECE7;stroke:#993C1D}
+      .c-coral>rect,.c-coral>polygon,.c-coral>circle,.c-coral>ellipse{fill:#FAECE7;stroke:#993C1D}
       .c-coral>.th{fill:#712B13}.c-coral>.ts{fill:#993C1D}
-      .c-gray>rect,.c-gray>circle,.c-gray>ellipse{fill:#F1EFE8;stroke:#5F5E5A}
+      .c-gray>rect,.c-gray>polygon,.c-gray>circle,.c-gray>ellipse{fill:#F1EFE8;stroke:#5F5E5A}
       .c-gray>.th{fill:#444441}.c-gray>.ts{fill:#5F5E5A}
-      .c-green>rect,.c-green>circle,.c-green>ellipse{fill:#EAF3DE;stroke:#3B6D11}
+      .c-green>rect,.c-green>polygon,.c-green>circle,.c-green>ellipse{fill:#EAF3DE;stroke:#3B6D11}
       .c-green>.th{fill:#27500A}.c-green>.ts{fill:#3B6D11}
-      .c-red>rect,.c-red>circle,.c-red>ellipse{fill:#FCEBEB;stroke:#A32D2D}
+      .c-red>rect,.c-red>polygon,.c-red>circle,.c-red>ellipse{fill:#FCEBEB;stroke:#A32D2D}
       .c-red>.th{fill:#791F1F}.c-red>.ts{fill:#A32D2D}
       @media(prefers-color-scheme:dark){
         :root{--b:rgba(224,225,226,.3);--bg2:#2A2A28;--s:#B0B0AD}
-        .c-teal>rect,.c-teal>circle,.c-teal>ellipse{fill:#0B2E24;stroke:#2DB88A}
+        .c-teal>rect,.c-teal>polygon,.c-teal>circle,.c-teal>ellipse{fill:#0B2E24;stroke:#2DB88A}
         .c-teal>.th{fill:#5DC9A3}.c-teal>.ts{fill:#2DB88A}
-        .c-blue>rect,.c-blue>circle,.c-blue>ellipse{fill:#0D2640;stroke:#3A8CD0}
+        .c-blue>rect,.c-blue>polygon,.c-blue>circle,.c-blue>ellipse{fill:#0D2640;stroke:#3A8CD0}
         .c-blue>.th{fill:#7AB8E8}.c-blue>.ts{fill:#3A8CD0}
-        .c-purple>rect,.c-purple>circle,.c-purple>ellipse{fill:#1E1C3D;stroke:#7A70D0}
+        .c-purple>rect,.c-purple>polygon,.c-purple>circle,.c-purple>ellipse{fill:#1E1C3D;stroke:#7A70D0}
         .c-purple>.th{fill:#ADA5F0}.c-purple>.ts{fill:#7A70D0}
-        .c-amber>rect,.c-amber>circle,.c-amber>ellipse{fill:#33230A;stroke:#C49020}
+        .c-amber>rect,.c-amber>polygon,.c-amber>circle,.c-amber>ellipse{fill:#33230A;stroke:#C49020}
         .c-amber>.th{fill:#E0B850}.c-amber>.ts{fill:#C49020}
-        .c-coral>rect,.c-coral>circle,.c-coral>ellipse{fill:#331510;stroke:#C05838}
+        .c-coral>rect,.c-coral>polygon,.c-coral>circle,.c-coral>ellipse{fill:#331510;stroke:#C05838}
         .c-coral>.th{fill:#E08868}.c-coral>.ts{fill:#C05838}
-        .c-gray>rect,.c-gray>circle,.c-gray>ellipse{fill:#252523;stroke:#8E8D88}
+        .c-gray>rect,.c-gray>polygon,.c-gray>circle,.c-gray>ellipse{fill:#252523;stroke:#8E8D88}
         .c-gray>.th{fill:#B0B0AD}.c-gray>.ts{fill:#8E8D88}
-        .c-green>rect,.c-green>circle,.c-green>ellipse{fill:#152D08;stroke:#5A9E20}
+        .c-green>rect,.c-green>polygon,.c-green>circle,.c-green>ellipse{fill:#152D08;stroke:#5A9E20}
         .c-green>.th{fill:#80C040}.c-green>.ts{fill:#5A9E20}
-        .c-red>rect,.c-red>circle,.c-red>ellipse{fill:#331212;stroke:#C04040}
+        .c-red>rect,.c-red>polygon,.c-red>circle,.c-red>ellipse{fill:#331212;stroke:#C04040}
         .c-red>.th{fill:#E07070}.c-red>.ts{fill:#C04040}
       }
       <!-- End copy -->
@@ -141,9 +141,8 @@ Safe zone: x ∈ [40, 640], y ∈ [40, H-40]
 
 **Must follow:**
 - Same-type nodes use the same color (group by semantic role, not by sequence)
-- Max 3 color classes per diagram
 - Title text uses 800 shade, subtitle text uses 600 shade — never identical (loses hierarchy)
-- `c-*` only on `<g>`, `<rect>`, `<circle>`, or `<ellipse>` — **never on `<path>`**
+- `c-*` only on `<g>`, `<rect>`, `<polygon>`, `<circle>`, or `<ellipse>` — **never on `<path>`**
 - `c-*` uses direct-child selectors; nesting `<g>` tags breaks styling — avoid deep nesting
 
 **Dark mode rules (what separates production from toy):**
@@ -310,6 +309,47 @@ Lower node entry: y2 = rect_y - 10 (with marker, aligns flush to edge)
   stroke-dasharray="5 3" marker-end="url(#arrow)"/>
 ```
 
+**Decision diamond branching layout (critical — prevents node overlap):**
+
+Diamond template:
+```xml
+<g class="c-amber">
+  <polygon points="{cx},{top_y} {right_x},{cy} {cx},{bot_y} {left_x},{cy}" stroke-width="0.5"/>
+  <text class="th" x="{cx}" y="{cy}" text-anchor="middle" dominant-baseline="central">Label</text>
+</g>
+```
+Diamond dimensions: width = right_x − left_x (recommended 130–160px), height = bot_y − top_y (recommended 50–60px).
+
+**Exit points** are the left and right corners of the diamond:
+```
+left_exit  = (left_x, cy)   // i.e. (cx - diamond_w/2, cy)
+right_exit = (right_x, cy)  // i.e. (cx + diamond_w/2, cy)
+```
+
+**Downstream box positioning — center-align to exit points, NOT to diamond center:**
+```
+box_left_center_x  = left_exit.x
+box_right_center_x = right_exit.x
+
+box_left_x  = box_left_center_x  − box_w / 2
+box_right_x = box_right_center_x − box_w / 2
+```
+
+**Non-overlap constraint** (must verify before drawing):
+```
+box_right_x ≥ box_left_x + box_w + 20
+             ↑ minimum 20px gap between edges
+If violated: reduce box_w, increase diamond_w, or stagger vertically.
+```
+
+**Arrow routing** (straight diagonal from exit corner to box top-center):
+```xml
+<line x1="{left_exit.x}" y1="{left_exit.y}" x2="{box_left_center_x}" y2="{box_top_y}"
+  stroke="{color}" stroke-width="1.5" marker-end="url(#arrow)"/>
+```
+
+**Common mistake:** positioning downstream boxes relative to the diamond center instead of its exit corners. This causes the boxes to cluster under the center and overlap, while arrows from the exit corners point to the wrong targets.
+
 ### Structure Diagram
 
 **Nested levels must use different color classes:**
@@ -386,6 +426,18 @@ This is the biggest difference between production-grade and toy output.
 #E24B4A  red 400 (error/fallback paths)
 ```
 
+**Line color rule — match source node's semantic color:**
+Connecting lines (arrows) must use the same color family as the **source node** (where the arrow starts), not the target. This creates a visual "information flows from" signal. Use the safe hex value corresponding to the source node's `c-*` class:
+- Source is `c-teal` → line stroke `#1D9E75`
+- Source is `c-purple` → line stroke `#534AB7`
+- Source is `c-blue` → line stroke `#185FA5`
+- Source is `c-amber` → line stroke `#BA7517`
+- Source is `c-coral` → line stroke `#993C1D`
+- Source is `c-gray` or neutral → line stroke `#888780`
+- Error/fallback paths → line stroke `#E24B4A`
+
+Exception: return/response lines always use `#888780` (gray) regardless of source color.
+
 ---
 
 ## Step 7: Line Crossing Prevention
@@ -417,7 +469,7 @@ Before drawing every line, perform these checks:
 
 ---
 
-## Step 8: Post-Draw Checklist (5 items, covering the most common failures)
+## Step 8: Post-Draw Checklist (6 items, covering the most common failures)
 
 Check in order — don't skip:
 
@@ -426,8 +478,9 @@ Check in order — don't skip:
 - [ ] All `<text>` has a class (`th`/`ts`/`t`); text inside nodes has `dominant-baseline="central"`
 - [ ] All `<path>` lines have `fill="none"`
 - [ ] Single `<svg>` element per diagram, with `role="img"` + `<title>` + `<desc>`
+- [ ] **Node position overlap check**: for every pair of shape elements (rect, polygon, circle, ellipse), verify bounding boxes do not overlap. Compare `{x, x+w}` and `{y, y+h}` ranges — if both X and Y ranges overlap, the nodes collide and one must be repositioned. Pay special attention to decision diamonds: their bounding box is wider than it appears (`cx ± half_w`), and adjacent rects must start after `cx + half_w`.
 
-Other rules (text not overflowing rects, line colors using safe hex, lines not crossing nodes, ≤ 3 color classes per diagram) are naturally enforced during drawing and don't need a separate post-check.
+Other rules (text not overflowing rects, line colors using safe hex, lines not crossing nodes) are naturally enforced during drawing and don't need a separate post-check.
 
 ---
 
