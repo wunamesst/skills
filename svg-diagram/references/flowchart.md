@@ -6,6 +6,15 @@
 - Two-line node (title + subtitle): height 56px
 - Decision diamond: `<polygon>`, width ~120px, height ~60px
 
+## Two-Line Node Text Positioning
+
+```xml
+<text class="th" x="{cx}" y="{rect_y + 19}"
+  text-anchor="middle" dominant-baseline="central">Title</text>
+<text class="ts" x="{cx}" y="{rect_y + 38}"
+  text-anchor="middle" dominant-baseline="central">Subtitle</text>
+```
+
 ## Horizontal Layout
 
 ```
@@ -31,18 +40,65 @@ Lower node entry: y2 = rect_y - 10
   <text class="th" x="{cx}" y="{cy}" text-anchor="middle" dominant-baseline="central">Label</text>
 </g>
 ```
+Diamond dimensions: width = right_x − left_x (recommended 130–160px), height = bot_y − top_y (recommended 50–60px).
 
-Exit points: left = (left_x, cy), right = (right_x, cy). Downstream boxes center-align to exit points, NOT diamond center.
+**Exit points** are the left and right corners of the diamond:
+```
+left_exit  = (left_x, cy)   // i.e. (cx - diamond_w/2, cy)
+right_exit = (right_x, cy)  // i.e. (cx + diamond_w/2, cy)
+```
+
+**Downstream box positioning — center-align to exit points, NOT to diamond center:**
+```
+box_left_center_x  = left_exit.x
+box_right_center_x = right_exit.x
+
+box_left_x  = box_left_center_x  − box_w / 2
+box_right_x = box_right_center_x − box_w / 2
+```
+
+**Non-overlap constraint** (must verify before drawing):
+```
+box_right_x ≥ box_left_x + box_w + 20
+             ↑ minimum 20px gap between edges
+If violated: reduce box_w, increase diamond_w, or stagger vertically.
+```
+
+**Arrow routing** (straight diagonal from exit corner to box top-center):
+```xml
+<line x1="{left_exit.x}" y1="{left_exit.y}" x2="{box_left_center_x}" y2="{box_top_y}"
+  stroke="{color}" stroke-width="1.5" marker-end="url(#arrow)"/>
+```
+
+**Common mistake:** positioning downstream boxes relative to the diamond center instead of its exit corners. This causes the boxes to cluster under the center and overlap, while arrows from the exit corners point to the wrong targets.
 
 ## Error Path Collection
 
-When multiple diamonds share the same error endpoint (e.g. multiple validations → all return 401):
+When a flowchart has multiple decision diamonds whose error/failure branches lead to the same outcome (e.g. multiple validation checks → all return 401), use this pattern:
 
-1. **Error endpoint at the bottom**, same vertical level as success end node, right side of diagram
-2. **Vertical collector line** on the right side — all error branches connect horizontally to it
-3. **No arrowheads** on horizontal error lines joining the collector (only the collector→error box line has an arrowhead)
-4. **All diamonds same width** for visual consistency
-5. **Text centered** in diamonds with `dominant-baseline="central"`
+1. **Error endpoint at the bottom**, not near the first diamond. Place the error box and failure end node at the same vertical level as the success end node, on the right side.
+2. **Vertical collector line** on the right side of the main flow. All error branches connect horizontally to this collector.
+3. **Horizontal error lines** from each diamond's right exit point to the collector. No arrowheads on these lines (the collector provides the visual flow).
+
+```xml
+<!-- Error line from diamond (no arrowhead — joins collector) -->
+<line x1="{right_exit.x}" y1="{right_exit.y}" x2="{collector_x}" y2="{right_exit.y}"
+  stroke="#E24B4A" stroke-width="1" stroke-dasharray="5 3"/>
+
+<!-- Vertical collector line -->
+<line x1="{collector_x}" y1="{first_error_y}" x2="{collector_x}" y2="{last_error_y}"
+  stroke="#E24B4A" stroke-width="1" stroke-dasharray="5 3"/>
+
+<!-- Collector → Error box (with arrowhead) -->
+<line x1="{collector_x}" y1="{last_error_y}" x2="{error_box_left_x}" y2="{last_error_y}"
+  stroke="#E24B4A" stroke-width="1" stroke-dasharray="5 3" marker-end="url(#arrow)"/>
+```
+
+**Layout rules:**
+- `collector_x` = rightmost diamond right_exit.x + 20px (clear of the diamond)
+- Error box left edge = collector_x + 10px
+- All diamonds in the flow must use the **same width** (visual consistency)
+- Text inside diamonds must use `dominant-baseline="central"` for vertical centering
 
 ```
 Diamond1 ──→ ┃
@@ -52,7 +108,7 @@ Diamond2 ──→ ┃
 Diamond3 ──→ ┃──→ [ Error Box ] → End(fail)
 ```
 
-`collector_x` = rightmost diamond right_exit.x + 20px
+**Common mistake:** placing the error box next to the first diamond, then drawing error lines from later diamonds that point into empty space with no endpoint. Every line must connect to a valid target.
 
 ## Example: Approval Flow (with rejection fallback)
 

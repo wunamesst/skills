@@ -64,23 +64,23 @@ Chronological events, version releases, project milestones, historical sequences
       .t{font-size:16px;font-weight:400;fill:var(--s)}
       .ts{font-size:12px;font-weight:400;fill:var(--s)}
       .th{font-size:14px;font-weight:500}
-      .c-teal>rect,.c-teal>circle{fill:#E1F5EE;stroke:#0F6E56}
+      .c-teal>rect,.c-teal>polygon,.c-teal>circle,.c-teal>ellipse{fill:#E1F5EE;stroke:#0F6E56}
       .c-teal>.th{fill:#085041}.c-teal>.ts{fill:#0F6E56}
-      .c-purple>rect,.c-purple>circle{fill:#EEEDFE;stroke:#534AB7}
+      .c-purple>rect,.c-purple>polygon,.c-purple>circle,.c-purple>ellipse{fill:#EEEDFE;stroke:#534AB7}
       .c-purple>.th{fill:#3C3489}.c-purple>.ts{fill:#534AB7}
-      .c-amber>rect,.c-amber>circle{fill:#FAEEDA;stroke:#854F0B}
+      .c-amber>rect,.c-amber>polygon,.c-amber>circle,.c-amber>ellipse{fill:#FAEEDA;stroke:#854F0B}
       .c-amber>.th{fill:#633806}.c-amber>.ts{fill:#854F0B}
-      .c-green>rect,.c-green>circle{fill:#EAF3DE;stroke:#3B6D11}
+      .c-green>rect,.c-green>polygon,.c-green>circle,.c-green>ellipse{fill:#EAF3DE;stroke:#3B6D11}
       .c-green>.th{fill:#27500A}.c-green>.ts{fill:#3B6D11}
       @media(prefers-color-scheme:dark){
         :root{--b:rgba(224,225,226,.3);--bg2:#2A2A28;--s:#B0B0AD}
-        .c-teal>rect,.c-teal>circle{fill:#0B2E24;stroke:#2DB88A}
+        .c-teal>rect,.c-teal>polygon,.c-teal>circle,.c-teal>ellipse{fill:#0B2E24;stroke:#2DB88A}
         .c-teal>.th{fill:#5DC9A3}.c-teal>.ts{fill:#2DB88A}
-        .c-purple>rect,.c-purple>circle{fill:#1E1C3D;stroke:#7A70D0}
+        .c-purple>rect,.c-purple>polygon,.c-purple>circle,.c-purple>ellipse{fill:#1E1C3D;stroke:#7A70D0}
         .c-purple>.th{fill:#ADA5F0}.c-purple>.ts{fill:#7A70D0}
-        .c-amber>rect,.c-amber>circle{fill:#33230A;stroke:#C49020}
+        .c-amber>rect,.c-amber>polygon,.c-amber>circle,.c-amber>ellipse{fill:#33230A;stroke:#C49020}
         .c-amber>.th{fill:#E0B850}.c-amber>.ts{fill:#C49020}
-        .c-green>rect,.c-green>circle{fill:#152D08;stroke:#5A9E20}
+        .c-green>rect,.c-green>polygon,.c-green>circle,.c-green>ellipse{fill:#152D08;stroke:#5A9E20}
         .c-green>.th{fill:#80C040}.c-green>.ts{fill:#5A9E20}
       }
     </style>

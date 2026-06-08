@@ -40,15 +40,15 @@ State transitions, lifecycle flows, order status, task states, connection states
 ## Initial State
 
 ```xml
-<circle cx="X" cy="CY" r="8" fill="#0F6E56" stroke="#0F6E56" stroke-width="1.5"/>
-<line x1="X+8" y1="CY" x2="X+30" y2="CY" stroke="#0F6E75" stroke-width="1.5" marker-end="url(#arrow)"/>
+<circle cx="X" cy="CY" r="8" fill="#3B6D11" stroke="#3B6D11" stroke-width="1.5"/>
+<line x1="X+8" y1="CY" x2="X+30" y2="CY" stroke="#3B6D11" stroke-width="1.5" marker-end="url(#arrow)"/>
 ```
 
 ## Final State (Bullseye)
 
 ```xml
-<circle cx="X" cy="CY" r="12" fill="none" stroke="#A32D2D" stroke-width="1.5"/>
-<circle cx="X" cy="CY" r="6" fill="#A32D2D"/>
+<circle cx="X" cy="CY" r="12" fill="none" stroke="#3B6D11" stroke-width="1.5"/>
+<circle cx="X" cy="CY" r="6" fill="#3B6D11"/>
 ```
 
 ## Self-Transition
@@ -73,23 +73,23 @@ State transitions, lifecycle flows, order status, task states, connection states
       .t{font-size:16px;font-weight:400;fill:var(--s)}
       .ts{font-size:12px;font-weight:400;fill:var(--s)}
       .th{font-size:14px;font-weight:500}
-      .c-green>rect,.c-green>circle{fill:#EAF3DE;stroke:#3B6D11}
+      .c-green>rect,.c-green>polygon,.c-green>circle,.c-green>ellipse{fill:#EAF3DE;stroke:#3B6D11}
       .c-green>.th{fill:#27500A}.c-green>.ts{fill:#3B6D11}
-      .c-purple>rect,.c-purple>circle{fill:#EEEDFE;stroke:#534AB7}
+      .c-purple>rect,.c-purple>polygon,.c-purple>circle,.c-purple>ellipse{fill:#EEEDFE;stroke:#534AB7}
       .c-purple>.th{fill:#3C3489}.c-purple>.ts{fill:#534AB7}
-      .c-amber>rect,.c-amber>circle{fill:#FAEEDA;stroke:#854F0B}
+      .c-amber>rect,.c-amber>polygon,.c-amber>circle,.c-amber>ellipse{fill:#FAEEDA;stroke:#854F0B}
       .c-amber>.th{fill:#633806}.c-amber>.ts{fill:#854F0B}
-      .c-red>rect,.c-red>circle{fill:#FCEBEB;stroke:#A32D2D}
+      .c-red>rect,.c-red>polygon,.c-red>circle,.c-red>ellipse{fill:#FCEBEB;stroke:#A32D2D}
       .c-red>.th{fill:#791F1F}.c-red>.ts{fill:#A32D2D}
       @media(prefers-color-scheme:dark){
         :root{--b:rgba(224,225,226,.3);--bg2:#2A2A28;--s:#B0B0AD}
-        .c-green>rect,.c-green>circle{fill:#152D08;stroke:#5A9E20}
+        .c-green>rect,.c-green>polygon,.c-green>circle,.c-green>ellipse{fill:#152D08;stroke:#5A9E20}
         .c-green>.th{fill:#80C040}.c-green>.ts{fill:#5A9E20}
-        .c-purple>rect,.c-purple>circle{fill:#1E1C3D;stroke:#7A70D0}
+        .c-purple>rect,.c-purple>polygon,.c-purple>circle,.c-purple>ellipse{fill:#1E1C3D;stroke:#7A70D0}
         .c-purple>.th{fill:#ADA5F0}.c-purple>.ts{fill:#7A70D0}
-        .c-amber>rect,.c-amber>circle{fill:#33230A;stroke:#C49020}
+        .c-amber>rect,.c-amber>polygon,.c-amber>circle,.c-amber>ellipse{fill:#33230A;stroke:#C49020}
         .c-amber>.th{fill:#E0B850}.c-amber>.ts{fill:#C49020}
-        .c-red>rect,.c-red>circle{fill:#331212;stroke:#C04040}
+        .c-red>rect,.c-red>polygon,.c-red>circle,.c-red>ellipse{fill:#331212;stroke:#C04040}
         .c-red>.th{fill:#E07070}.c-red>.ts{fill:#C04040}
       }
     </style>

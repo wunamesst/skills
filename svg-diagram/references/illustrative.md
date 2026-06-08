@@ -131,19 +131,19 @@ Leader line template:
       .t{font-size:16px;font-weight:400;fill:var(--s)}
       .ts{font-size:12px;font-weight:400;fill:var(--s)}
       .th{font-size:14px;font-weight:500}
-      .c-purple>rect,.c-purple>circle,.c-purple>ellipse{fill:#EEEDFE;stroke:#534AB7}
+      .c-purple>rect,.c-purple>polygon,.c-purple>circle,.c-purple>ellipse{fill:#EEEDFE;stroke:#534AB7}
       .c-purple>.th{fill:#3C3489}.c-purple>.ts{fill:#534AB7}
-      .c-gray>rect,.c-gray>circle,.c-gray>ellipse{fill:#F1EFE8;stroke:#5F5E5A}
+      .c-gray>rect,.c-gray>polygon,.c-gray>circle,.c-gray>ellipse{fill:#F1EFE8;stroke:#5F5E5A}
       .c-gray>.th{fill:#444441}.c-gray>.ts{fill:#5F5E5A}
-      .c-amber>rect,.c-amber>circle,.c-amber>ellipse{fill:#FAEEDA;stroke:#854F0B}
+      .c-amber>rect,.c-amber>polygon,.c-amber>circle,.c-amber>ellipse{fill:#FAEEDA;stroke:#854F0B}
       .c-amber>.th{fill:#633806}.c-amber>.ts{fill:#854F0B}
       @media(prefers-color-scheme:dark){
         :root{--b:rgba(224,225,226,.3);--bg2:#2A2A28;--s:#B0B0AD}
-        .c-purple>rect,.c-purple>circle,.c-purple>ellipse{fill:#1E1C3D;stroke:#7A70D0}
+        .c-purple>rect,.c-purple>polygon,.c-purple>circle,.c-purple>ellipse{fill:#1E1C3D;stroke:#7A70D0}
         .c-purple>.th{fill:#ADA5F0}.c-purple>.ts{fill:#7A70D0}
-        .c-gray>rect,.c-gray>circle,.c-gray>ellipse{fill:#252523;stroke:#8E8D88}
+        .c-gray>rect,.c-gray>polygon,.c-gray>circle,.c-gray>ellipse{fill:#252523;stroke:#8E8D88}
         .c-gray>.th{fill:#B0B0AD}.c-gray>.ts{fill:#8E8D88}
-        .c-amber>rect,.c-amber>circle,.c-amber>ellipse{fill:#33230A;stroke:#C49020}
+        .c-amber>rect,.c-amber>polygon,.c-amber>circle,.c-amber>ellipse{fill:#33230A;stroke:#C49020}
         .c-amber>.th{fill:#E0B850}.c-amber>.ts{fill:#C49020}
       }
     </style>
