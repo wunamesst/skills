@@ -202,6 +202,10 @@ Message label placed 8px above the arrow: `y="{arrow_y - 8}"`
 
 **Read `references/flowchart.md` before drawing any flowchart.**
 
+**Layout direction — decide before drawing:**
+- **Horizontal** (compact): ≤ 4 nodes, linear flow (no branches), short labels (title only, no subtitle). Produces a short, wide diagram — ideal for simple sequential flows.
+- **Vertical** (spacious): > 4 nodes, has decision branches, needs subtitles, or complex routing. Produces a tall diagram — necessary for branching logic.
+
 **Standard node sizes:**
 - Single-line node: height 44px
 - Two-line node (title + subtitle): height 56px
@@ -217,9 +221,9 @@ Message label placed 8px above the arrow: `y="{arrow_y - 8}"`
 
 **Horizontal layout width calculation:**
 ```
-n nodes, gap = 20:
-total = n × node_w + (n-1) × gap, must satisfy total ≤ 600
-node_w = (600 - (n-1) × 20) / n
+gap = 40 (minimum — 10px exit + 20px visible shaft + 10px entry)
+total = sum(node_w) + (n-1) × gap, must satisfy total ≤ 600
+node_w = max(title_width + 48, 90)  per node — variable width
 start_x = (680 - total) / 2
 ```
 

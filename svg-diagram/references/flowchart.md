@@ -1,5 +1,10 @@
 # Flowchart Specification
 
+## Layout Direction Decision
+
+- **Horizontal** (compact): ≤ 4 nodes, linear flow (no branches), short labels (title only, no subtitle)
+- **Vertical** (spacious): > 4 nodes, has decision branches, needs subtitles, or complex routing
+
 ## Node Sizes
 
 - Single-line node: height 44px
@@ -17,12 +22,22 @@
 
 ## Horizontal Layout
 
+**Minimum gap between nodes: 40px** — ensures a visible arrow (10px exit margin + 20px shaft + 10px entry margin).
+
+**Variable-width nodes** — each node's width is determined by its text content, not forced equal:
 ```
-n nodes, gap = 20:
-total = n × node_w + (n-1) × gap
-Must satisfy total ≤ 600
-node_w = (600 - (n-1) × 20) / n
+node_w = max(title_text_width + 48, 90)
+total = sum(node_w) + (n-1) × 40, must satisfy total ≤ 600
 start_x = (680 - total) / 2
+```
+
+**Node center Y** (for single-line nodes): `cy = 40 + 22 = 62` (rect y=40, height=44)
+
+**Horizontal arrow endpoints (10px margin each side):**
+```
+Left node exit: x1 = rect_x + rect_w + 10
+Right node entry: x2 = rect_x - 10
+Arrow y = cy
 ```
 
 ## Vertical Arrow Endpoints
