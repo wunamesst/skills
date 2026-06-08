@@ -41,24 +41,30 @@ output/
 
 ### svg-diagram
 
-Production-grade hand-written SVG diagram skill. Supports sequence diagrams, flowcharts, structure diagrams, ERDs (via mermaid.js), interactive HTML widgets, and illustrative diagrams.
+Production-grade hand-written SVG diagram skill. Supports sequence diagrams, flowcharts, structure diagrams, state machines, timelines, ERDs (via mermaid.js), interactive HTML widgets, and illustrative diagrams.
 
 Architecture: `SKILL.md` is a multi-step procedural handbook (type decision → canvas setup → color system → text sizing → per-type specs → dark mode → anti-overlap → checklist). Reference files are specialized sub-manuals:
 
 | Reference | Purpose |
 |-----------|---------|
-| `references/embedded-styles.md` | Complete embedded CSS style block (color classes + dark mode) — redundant with SKILL.md step 2, kept for reference |
-| `references/examples.md` | Full SVG code for sequence, flow, and structure diagrams |
+| `references/sequence.md` | Sequence diagram spec + Y-coordinate lookup tables + example |
+| `references/flowchart.md` | Flowchart spec + node sizing + decision diamond layout + example |
+| `references/structure.md` | Structure diagram spec + nesting rules + example |
+| `references/state-machine.md` | State machine spec + initial/final state templates + example |
+| `references/timeline.md` | Timeline spec + event marker/card templates + example |
 | `references/erd.md` | Mermaid.js ERD template with dark-mode and rounded-corner post-processing |
 | `references/interactive.md` | HTML widget templates: stepper, slider, clickable nodes, animation |
 | `references/illustrative.md` | Illustrative diagram rules: spatial metaphors, physical vs abstract themes |
+| `references/embedded-styles.md` | Complete embedded CSS style block (color classes + dark mode) — backup reference |
 
 Key design invariants:
 - Canvas width is always `viewBox="0 0 680 {H}"` — 680 is a hard constant
 - Every SVG must include `xmlns="http://www.w3.org/2000/svg"` and an embedded `<style>` block (CSS template in SKILL.md step 2) for standalone browser rendering
-- Max 3 color classes (`c-*`) per diagram, chosen by semantic role not sequence
+- Color classes (`c-*`) chosen by semantic role not sequence; use as many as semantically needed
 - Text on nodes must use `c-*` classes for automatic dark-mode support; hardcoded hex is only allowed on connecting lines (mid-tone safe values listed in SKILL.md §6)
+- Connecting lines match source node's semantic color
 - ERDs use mermaid.js, everything else is hand-written SVG
+- PNG export available via `scripts/svg2png.sh`
 
 ## Adding a New Skill
 

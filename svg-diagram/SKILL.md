@@ -5,10 +5,10 @@ description: >
   画架构图、解释概念、绘制任何可视化图表时必须使用本 skill。
   Production-grade hand-written SVG diagrams. Use when users request diagrams, flowcharts,
   architecture diagrams, sequence diagrams, data flow, concept visualization, ERDs.
-  Supports: sequence, flowchart, structure, ERD, interactive, illustrative diagrams.
+  Supports: sequence, flowchart, structure, ERD, interactive, illustrative, state machine, timeline.
   Dark mode support, semantic colors, better than Mermaid.
-  Triggers: 画图 绘图 时序图 流程图 架构图 数据流 示意图 可视化 ER图
-  diagram flowchart sequence architecture visualize ERD.
+  Triggers: 画图 绘图 时序图 流程图 架构图 数据流 示意图 可视化 ER图 状态机 时间线 生命周期 里程碑
+  diagram flowchart sequence architecture visualize ERD state-machine timeline lifecycle milestone.
 ---
 
 # SVG Diagram Skill — Production-Grade Handbook
@@ -28,7 +28,9 @@ Read this entire file before drawing any diagram. Then consult `references/` for
 | Component containment, system architecture | Structure diagram | Hand-written SVG |
 | Abstract concepts, mechanism explanation | Illustrative diagram | HTML + inline SVG (interactive) |
 | Database table structures, ER diagrams | ERD | mermaid.js (see references/erd.md) |
-| State transitions, controls needed | Interactive diagram | HTML widget (see references/interactive.md) |
+| State transitions, lifecycle | State machine diagram | Hand-written SVG (see references/state-machine.md) |
+| Chronological events, milestones | Timeline diagram | Hand-written SVG (see references/timeline.md) |
+| Controls needed | Interactive diagram | HTML widget (see references/interactive.md) |
 
 **Mandatory split rules (exceed these limits → split into multiple diagrams):**
 - Sequence participants > 6 → split into "overview + sub-flow"
@@ -63,7 +65,7 @@ Safe zone: x ∈ [40, 640], y ∈ [40, H-40]
   <defs>
     <style>
       <!-- Copy from here; keep only c-* classes used, delete unused -->
-      svg{font-family:"Anthropic Sans",-apple-system,system-ui,"Segoe UI",sans-serif}
+      svg{font-family:"JetBrains Mono","Anthropic Sans",-apple-system,system-ui,"Segoe UI",sans-serif}
       :root{--b:rgba(31,30,29,.3);--bg2:#F5F4ED;--s:#3D3D3A}
       .t{font-size:16px;font-weight:400;fill:var(--s)}
       .ts{font-size:12px;font-weight:400;fill:var(--s)}
@@ -350,6 +352,36 @@ If violated: reduce box_w, increase diamond_w, or stagger vertically.
 
 **Common mistake:** positioning downstream boxes relative to the diamond center instead of its exit corners. This causes the boxes to cluster under the center and overlap, while arrows from the exit corners point to the wrong targets.
 
+**Error path collection (critical — when multiple diamonds share the same error endpoint):**
+
+When a flowchart has multiple decision diamonds whose error/failure branches lead to the same outcome (e.g. multiple validation checks → all return 401), use this pattern:
+
+1. **Error endpoint at the bottom**, not near the first diamond. Place the error box and failure end node at the same vertical level as the success end node, on the right side.
+2. **Vertical collector line** on the right side of the main flow. All error branches connect horizontally to this collector.
+3. **Horizontal error lines** from each diamond's right exit point to the collector. No arrowheads on these lines (the collector provides the visual flow).
+
+```xml
+<!-- Error line from diamond (no arrowhead — joins collector) -->
+<line x1="{right_exit.x}" y1="{right_exit.y}" x2="{collector_x}" y2="{right_exit.y}"
+  stroke="#E24B4A" stroke-width="1" stroke-dasharray="5 3"/>
+
+<!-- Vertical collector line -->
+<line x1="{collector_x}" y1="{first_error_y}" x2="{collector_x}" y2="{last_error_y}"
+  stroke="#E24B4A" stroke-width="1" stroke-dasharray="5 3"/>
+
+<!-- Collector → Error box (with arrowhead) -->
+<line x1="{collector_x}" y1="{last_error_y}" x2="{error_box_left_x}" y2="{last_error_y}"
+  stroke="#E24B4A" stroke-width="1" stroke-dasharray="5 3" marker-end="url(#arrow)"/>
+```
+
+**Layout rules:**
+- `collector_x` = rightmost diamond right_exit.x + 20px (clear of the diamond)
+- Error box left edge = collector_x + 10px
+- All diamonds in the flow must use the **same width** (visual consistency)
+- Text inside diamonds must use `dominant-baseline="central"` for vertical centering
+
+**Common mistake:** placing the error box next to the first diamond, then drawing error lines from later diamonds that point into empty space with no endpoint. Every line must connect to a valid target.
+
 ### Structure Diagram
 
 **Nested levels must use different color classes:**
@@ -469,7 +501,7 @@ Before drawing every line, perform these checks:
 
 ---
 
-## Step 8: Post-Draw Checklist (6 items, covering the most common failures)
+## Step 8: Post-Draw Checklist (7 items, covering the most common failures)
 
 Check in order — don't skip:
 
@@ -479,6 +511,7 @@ Check in order — don't skip:
 - [ ] All `<path>` lines have `fill="none"`
 - [ ] Single `<svg>` element per diagram, with `role="img"` + `<title>` + `<desc>`
 - [ ] **Node position overlap check**: for every pair of shape elements (rect, polygon, circle, ellipse), verify bounding boxes do not overlap. Compare `{x, x+w}` and `{y, y+h}` ranges — if both X and Y ranges overlap, the nodes collide and one must be repositioned. Pay special attention to decision diamonds: their bounding box is wider than it appears (`cx ± half_w`), and adjacent rects must start after `cx + half_w`.
+- [ ] **Line connectivity check**: every `<line>` and `<path>` must connect to a valid target element (a rect, circle, or another line endpoint). No line should point into empty space. For error/fallback paths from decision diamonds, verify the error line reaches an error box or a collector line that leads to one.
 
 Other rules (text not overflowing rects, line colors using safe hex, lines not crossing nodes) are naturally enforced during drawing and don't need a separate post-check.
 
@@ -488,11 +521,27 @@ Other rules (text not overflowing rects, line colors using safe hex, lines not c
 
 | File | Content | When to Read |
 |------|---------|-------------|
-| `references/examples.md` | Complete sequence, flowchart, structure diagram examples (with coordinates) | First time drawing that type |
+| `references/sequence.md` | Sequence diagram spec + Y-coordinate lookup tables + example | Drawing sequence diagrams |
+| `references/flowchart.md` | Flowchart spec + node sizing + decision diamond layout + example | Drawing flowcharts |
+| `references/structure.md` | Structure diagram spec + nesting rules + example | Drawing architecture/component diagrams |
+| `references/state-machine.md` | State machine spec + initial/final state templates + example | Drawing state transitions, lifecycles |
+| `references/timeline.md` | Timeline spec + event marker/card templates + example | Drawing chronological events, milestones |
 | `references/erd.md` | mermaid.js ERD template + dark mode adaptation | Drawing ERDs |
 | `references/interactive.md` | HTML interactive widget templates (slider, stepper, click) | When interactive controls needed |
 | `references/illustrative.md` | Illustrative diagram spec (abstract concept spatial metaphor) | Explaining principles/mechanisms |
 | `references/embedded-styles.md` | Complete CSS style reference (same as Step 2 template above) | Backup reference, no need to read each time |
+
+## PNG Export
+
+After saving the SVG, convert to @2x PNG for sharing on platforms that don't render SVG:
+
+```bash
+bash {skillDir}/scripts/svg2png.sh <svg-path> [scale]
+```
+
+- `scale`: 1, 2, 3 (default: 2)
+- Uses macOS `qlmanage` (built-in) or `rsvg-convert` (better quality, `brew install librsvg`)
+- Output: `<input>@2x.png` in the same directory
 
 ---
 

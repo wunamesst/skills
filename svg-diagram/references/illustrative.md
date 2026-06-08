@@ -126,7 +126,7 @@ Leader line template:
   <desc>Attention weights from token "sat" to all other tokens; thicker lines = higher weight</desc>
   <defs>
     <style>
-      svg{font-family:"Anthropic Sans",-apple-system,system-ui,"Segoe UI",sans-serif}
+      svg{font-family:"JetBrains Mono","Anthropic Sans",-apple-system,system-ui,"Segoe UI",sans-serif}
       :root{--b:rgba(31,30,29,.3);--bg2:#F5F4ED;--s:#3D3D3A}
       .t{font-size:16px;font-weight:400;fill:var(--s)}
       .ts{font-size:12px;font-weight:400;fill:var(--s)}
