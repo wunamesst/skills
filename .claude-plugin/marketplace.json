@@ -1,0 +1,21 @@
+{
+  "name": "svg-diagram-marketplace",
+  "owner": {
+    "name": "Gavin Wu"
+  },
+  "description": "Production-grade SVG diagram skills for Claude Code",
+  "plugins": [
+    {
+      "name": "svg-diagram",
+      "source": ".",
+      "description": "Hand-written SVG diagrams: sequence, flowchart, structure, ERD, interactive, state machine, timeline. Dark mode, semantic colors, CJK support.",
+      "version": "1.0.0",
+      "author": {
+        "name": "Gavin Wu"
+      },
+      "license": "MIT",
+      "repository": "https://github.com/wunamesst/skills",
+      "keywords": ["svg", "diagram", "flowchart", "sequence", "visualization"]
+    }
+  ]
+}

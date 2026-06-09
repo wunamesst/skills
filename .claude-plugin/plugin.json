@@ -1,0 +1,12 @@
+{
+  "name": "svg-diagram",
+  "description": "Production-grade hand-written SVG diagrams. Supports sequence, flowchart, structure, ERD, interactive, illustrative, state machine, and timeline diagrams with dark mode and semantic colors.",
+  "version": "1.0.0",
+  "author": {
+    "name": "Gavin Wu"
+  },
+  "license": "MIT",
+  "repository": "https://github.com/wunamesst/skills",
+  "keywords": ["svg", "diagram", "flowchart", "sequence", "architecture", "visualization", "erd", "state-machine", "timeline"],
+  "skills": "./skills/svg-diagram"
+}

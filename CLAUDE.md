@@ -4,40 +4,42 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Repository Purpose
 
-This is a skills registry — a collection of pluggable skill modules for AI coding assistants (Claude Code, Copilot CLI, etc.). Each skill is a self-contained directory with a `SKILL.md` entry point.
+This is a Claude Code plugin marketplace — a collection of pluggable skill modules distributed via the Plugin Marketplace system. Each plugin follows the `.claude-plugin/` convention with skills, references, and scripts.
 
-## Skill Structure
-
-Every skill follows the standard layout:
+## Plugin Structure
 
 ```
-<skill-name>/
-  SKILL.md          # Entry point — YAML frontmatter (name, description) + full instructions
-  references/       # Supplementary docs, templates, examples referenced by SKILL.md
-  assets/           # Bundled resources used in output (templates, icons, fonts) — optional
-  scripts/          # Executable code for deterministic/repetitive tasks — optional
+.claude-plugin/
+  plugin.json         # Plugin manifest (name, version, description, skills path)
+  marketplace.json    # Marketplace catalog for distribution
+skills/
+  svg-diagram/
+    SKILL.md          # Entry point — YAML frontmatter + full instructions
+    references/       # Supplementary docs loaded on-demand by SKILL.md
+    scripts/          # Executable code (e.g. svg2png.sh)
+output/               # Generated files during development (git-ignored)
 ```
 
-- `SKILL.md` is the authoritative file. Frontmatter `name` and `description` fields are used by the skill loader for discovery and matching.
-- The `description` in frontmatter should include Chinese trigger keywords when the skill targets Chinese-speaking users.
-- Reference files are loaded on-demand by `SKILL.md`, not auto-loaded — keep them focused on specific sub-topics.
-- Skill directories must follow the standard structure above. Never add project-specific directories (like `demo/`) inside skill directories — those belong in the repo-level `output/` directory.
+## Installing This Plugin
 
-## Skill Output Convention
-
-All skill-generated files during development (diagrams, HTML widgets, etc.) go into the repo-level `output/` directory:
-
+From any Claude Code session:
 ```
-output/
-  <name>.svg            # SVG diagrams
-  <name>.html           # HTML interactive widgets
+/plugin marketplace add https://github.com/wunamesst/skills
+/plugin install svg-diagram@svg-diagram-marketplace
 ```
 
-- Write all generated files to `output/`, never into skill directories themselves or arbitrary locations.
-- Use descriptive filenames (e.g., `oauth2-flow.svg`, not `diagram1.svg`).
-- After writing, use `open` to view in browser for verification.
+For local development:
+```
+/plugin marketplace add .
+/plugin install svg-diagram@svg-diagram-marketplace
+```
 
-## Current Skills
+Or symlink the skill directly:
+```
+ln -sf $(pwd)/skills/svg-diagram ~/.claude/skills/svg-diagram
+```
+
+## Current Plugins
 
 ### svg-diagram
 
@@ -66,14 +68,16 @@ Key design invariants:
 - ERDs use mermaid.js, everything else is hand-written SVG
 - PNG export available via `scripts/svg2png.sh`
 
-## Adding a New Skill
+## Adding a New Plugin
 
-1. Create `<skill-name>/SKILL.md` with YAML frontmatter (`---`, `name`, `description`) and the full instruction body.
-2. Add `<skill-name>/references/` for any supplementary files the skill needs to reference.
-3. Add `<skill-name>/assets/` or `<skill-name>/scripts/` only if the skill bundles resources or executable code.
-4. No registration step — skills are auto-discovered by the runtime scanning for `SKILL.md` files.
+1. Create `skills/<plugin-name>/SKILL.md` with YAML frontmatter and full instructions.
+2. Add `skills/<plugin-name>/references/` for supplementary files.
+3. Add `skills/<plugin-name>/scripts/` for executable code.
+4. Add the plugin entry to `.claude-plugin/marketplace.json` plugins array.
+5. Add the plugin manifest at `.claude-plugin/plugin.json` (or create a separate `.claude-plugin/` per plugin).
 
 ## Repo Layout Notes
 
 - `output/` — All skill-generated files during development. Git-ignored.
-- `.claude/skills/` — Claude Code skill symlinks for local development.
+- `.claude-plugin/` — Plugin marketplace manifests for distribution.
+- `skills/` — Plugin skill directories, each containing a `SKILL.md` entry point.

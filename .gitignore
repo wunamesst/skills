@@ -42,6 +42,9 @@ claude-debug.log
 .roo/
 .cursor/
 
+# Firecrawl 搜索/抓取缓存
+.firecrawl/
+
 # 记忆系统缓存（如 Mem0, claude-mem 或本地向量库缓存）
 .memory/
 .mem0/
