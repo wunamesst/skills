@@ -66,6 +66,17 @@ Draw the microservice architecture for an order system
 
 Output files are written to `output/` and opened in your browser automatically.
 
+**Convert SVG to PNG (cross-platform):**
+```bash
+# One-time setup
+cd skills/svg-diagram/scripts && npm install
+
+# Usage
+node svg2png.mjs output/diagram.svg            # @2x (default)
+node svg2png.mjs output/diagram.svg -s 3       # @3x
+node svg2png.mjs output/diagram.svg -o out.png  # custom output path
+```
+
 ## Available Skills
 
 | Skill | Description |

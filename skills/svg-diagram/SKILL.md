@@ -384,12 +384,14 @@ Other rules (text not overflowing rects, line colors using safe hex, lines not c
 After saving the SVG, convert to @2x PNG for sharing on platforms that don't render SVG:
 
 ```bash
-bash {skillDir}/scripts/svg2png.sh <svg-path> [scale]
+node {skillDir}/scripts/svg2png.mjs <svg-path> [options]
 ```
 
-- `scale`: 1, 2, 3 (default: 2)
-- Uses macOS `qlmanage` (built-in) or `rsvg-convert` (better quality, `brew install librsvg`)
-- Output: `<input>@2x.png` in the same directory
+Options:
+- `-s, --scale <n>` — Scale factor (default: 2)
+- `-o, --output <path>` — Custom output path
+
+Prerequisites: run `cd {skillDir}/scripts && npm install` once to install sharp.
 
 ---
 
