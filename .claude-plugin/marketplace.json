@@ -7,7 +7,7 @@
   "plugins": [
     {
       "name": "svg-diagram",
-      "source": ".",
+      "source": "skills/svg-diagram",
       "description": "Hand-written SVG diagrams: sequence, flowchart, structure, ERD, interactive, state machine, timeline. Dark mode, semantic colors, CJK support.",
       "version": "1.0.0",
       "author": {
