@@ -8,7 +8,7 @@
     {
       "name": "svg-diagram",
       "source": {
-        "type": "git-subdir",
+        "source": "git-subdir",
         "url": "https://github.com/wunamesst/skills.git",
         "path": "skills/svg-diagram"
       },
