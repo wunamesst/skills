@@ -7,7 +7,11 @@
   "plugins": [
     {
       "name": "svg-diagram",
-      "source": "skills/svg-diagram",
+      "source": {
+        "type": "git-subdir",
+        "url": "https://github.com/wunamesst/skills.git",
+        "path": "skills/svg-diagram"
+      },
       "description": "Hand-written SVG diagrams: sequence, flowchart, structure, ERD, interactive, state machine, timeline. Dark mode, semantic colors, CJK support.",
       "version": "1.0.0",
       "author": {
