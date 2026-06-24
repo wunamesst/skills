@@ -1,6 +1,13 @@
 # Skills Registry
 
+![License](https://img.shields.io/badge/license-MIT-blue.svg)
+![Version](https://img.shields.io/badge/version-1.0.0-green.svg)
+![Claude Code](https://img.shields.io/badge/Claude%20Code-plugin-orange.svg)
+![Skills](https://img.shields.io/badge/skills-2-success.svg)
+
 A curated collection of production-grade Claude Code skills.
+
+> ⚠ **Trust Warning**: Make sure you trust a plugin before installing. Anthropic does not control what MCP servers, files, or other software are included in plugins and cannot verify that they will work as intended. See each plugin's homepage for more information.
 
 ## Available Skills
 
