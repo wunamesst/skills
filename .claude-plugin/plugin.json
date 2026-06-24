@@ -1,12 +1,11 @@
 {
-  "name": "svg-diagram",
-  "description": "Production-grade hand-written SVG diagrams. Supports sequence, flowchart, structure, ERD, interactive, illustrative, state machine, and timeline diagrams with dark mode and semantic colors.",
+  "name": "skills-marketplace",
+  "description": "A curated collection of production-grade Claude Code skills. Includes svg-diagram for technical diagrams and poly-wiki for knowledge base compilation.",
   "version": "1.0.0",
   "author": {
     "name": "Gavin Wu"
   },
   "license": "MIT",
   "repository": "https://github.com/wunamesst/skills",
-  "keywords": ["svg", "diagram", "flowchart", "sequence", "architecture", "visualization", "erd", "state-machine", "timeline"],
-  "skills": "./skills/svg-diagram"
+  "keywords": ["skills", "marketplace", "svg", "diagram", "wiki", "knowledge"]
 }
