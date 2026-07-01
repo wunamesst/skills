@@ -21,7 +21,7 @@ flolib-skills
 Install from Claude Code:
 
 ```text
-/plugin marketplace add https://github.com/flolibio/skills
+/plugin marketplace add https://github.com/wunamesst/skills
 /plugin install svg-diagram@flolib-skills
 /plugin install poly-wiki@flolib-skills
 ```

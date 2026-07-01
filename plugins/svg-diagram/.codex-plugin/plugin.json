@@ -6,8 +6,8 @@
     "name": "FloLib",
     "url": "https://github.com/flolibio"
   },
-  "homepage": "https://github.com/flolibio/skills/tree/main/skills/svg-diagram",
-  "repository": "https://github.com/flolibio/skills",
+  "homepage": "https://github.com/wunamesst/skills/tree/main/skills/svg-diagram",
+  "repository": "https://github.com/wunamesst/skills",
   "license": "MIT",
   "keywords": ["svg", "diagram", "flowchart", "sequence", "visualization"],
   "skills": "./skills/",
@@ -18,7 +18,7 @@
     "developerName": "FloLib",
     "category": "Productivity",
     "capabilities": ["Write"],
-    "websiteURL": "https://github.com/flolibio/skills",
+    "websiteURL": "https://github.com/wunamesst/skills",
     "defaultPrompt": [
       "Use $svg-diagram to draw a sequence diagram for this workflow.",
       "Use $svg-diagram to create an architecture diagram."

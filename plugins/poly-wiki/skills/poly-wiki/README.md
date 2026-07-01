@@ -39,7 +39,7 @@ claude
 ### Codex CLI
 
 ```bash
-codex plugin marketplace add flolibio/skills
+codex plugin marketplace add wunamesst/skills
 codex
 /plugins
 ```

@@ -9,7 +9,7 @@
       "name": "svg-diagram",
       "source": {
         "source": "git-subdir",
-        "url": "https://github.com/flolibio/skills.git",
+        "url": "https://github.com/wunamesst/skills.git",
         "path": "skills/svg-diagram"
       },
       "description": "Hand-written SVG diagrams: sequence, flowchart, structure, ERD, interactive, state machine, timeline. Dark mode, semantic colors, CJK support.",
@@ -18,14 +18,14 @@
         "name": "FloLib"
       },
       "license": "MIT",
-      "repository": "https://github.com/flolibio/skills",
+      "repository": "https://github.com/wunamesst/skills",
       "keywords": ["svg", "diagram", "flowchart", "sequence", "visualization"]
     },
     {
       "name": "poly-wiki",
       "source": {
         "source": "git-subdir",
-        "url": "https://github.com/flolibio/skills.git",
+        "url": "https://github.com/wunamesst/skills.git",
         "path": "skills/poly-wiki"
       },
       "description": "Multi-platform knowledge base compiler. Compile raw materials into structured knowledge, maintain a reusable knowledge network. Supports ingest, extract, lint, query.",
@@ -34,7 +34,7 @@
         "name": "FloLib"
       },
       "license": "MIT",
-      "repository": "https://github.com/flolibio/skills",
+      "repository": "https://github.com/wunamesst/skills",
       "keywords": ["wiki", "knowledge", "zettelkasten", "notes", "compiler"]
     }
   ]

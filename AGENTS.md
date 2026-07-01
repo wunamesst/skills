@@ -22,7 +22,7 @@ flolib-skills
 Install from Codex:
 
 ```bash
-codex plugin marketplace add flolibio/skills
+codex plugin marketplace add wunamesst/skills
 ```
 
 Local development:
@@ -109,7 +109,7 @@ Follow `docs/main/flolib-skills-standards.md`.
 <claude-mem-context>
 # Memory Context
 
-# [skills] recent context, 2026-07-01 12:04pm GMT+8
+# [skills] recent context, 2026-07-01 1:35pm GMT+8
 
 Legend: 🎯session 🔴bugfix 🟣feature 🔄refactor ✅change 🔵discovery ⚖️decision 🚨security_alert 🔐security_note
 Format: ID TIME TYPE TITLE

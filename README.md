@@ -21,7 +21,7 @@ same skills installable in Claude Code, Codex, and future agent platforms.
 ### Claude Code
 
 ```text
-/plugin marketplace add https://github.com/flolibio/skills
+/plugin marketplace add https://github.com/wunamesst/skills
 /plugin install svg-diagram@flolib-skills
 /plugin install poly-wiki@flolib-skills
 ```
@@ -29,7 +29,7 @@ same skills installable in Claude Code, Codex, and future agent platforms.
 ### Codex
 
 ```bash
-codex plugin marketplace add flolibio/skills
+codex plugin marketplace add wunamesst/skills
 ```
 
 Then open `/plugins`, choose `FloLib Skills`, and install `svg-diagram` or

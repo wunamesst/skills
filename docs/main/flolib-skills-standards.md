@@ -14,7 +14,7 @@ This document defines how this repository publishes cross-platform agent skills.
 
 - Public marketplace name: `flolib-skills`.
 - Public display name: `FloLib Skills`.
-- Target GitHub repository: `flolibio/skills`.
+- Target GitHub repository: `wunamesst/skills`.
 - Skill names use lowercase kebab-case and match their folder names.
 
 ## Source of Truth
@@ -47,7 +47,7 @@ skills/poly-wiki
 This preserves the short install flow:
 
 ```text
-/plugin marketplace add https://github.com/flolibio/skills
+/plugin marketplace add https://github.com/wunamesst/skills
 /plugin install svg-diagram@flolib-skills
 ```
 
