@@ -1,0 +1,32 @@
+{
+  "name": "flolib-skills",
+  "interface": {
+    "displayName": "FloLib Skills"
+  },
+  "plugins": [
+    {
+      "name": "svg-diagram",
+      "source": {
+        "source": "local",
+        "path": "./plugins/svg-diagram"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    },
+    {
+      "name": "poly-wiki",
+      "source": {
+        "source": "local",
+        "path": "./plugins/poly-wiki"
+      },
+      "policy": {
+        "installation": "AVAILABLE",
+        "authentication": "ON_INSTALL"
+      },
+      "category": "Productivity"
+    }
+  ]
+}

@@ -1,0 +1,28 @@
+{
+  "name": "svg-diagram",
+  "version": "1.0.0",
+  "description": "Production-grade SVG diagram skill for technical diagrams.",
+  "author": {
+    "name": "FloLib",
+    "url": "https://github.com/flolibio"
+  },
+  "homepage": "https://github.com/flolibio/skills/tree/main/skills/svg-diagram",
+  "repository": "https://github.com/flolibio/skills",
+  "license": "MIT",
+  "keywords": ["svg", "diagram", "flowchart", "sequence", "visualization"],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "SVG Diagram",
+    "shortDescription": "Production-grade technical diagrams.",
+    "longDescription": "Create hand-written SVG sequence diagrams, flowcharts, architecture diagrams, ERDs, timelines, and state machines.",
+    "developerName": "FloLib",
+    "category": "Productivity",
+    "capabilities": ["Write"],
+    "websiteURL": "https://github.com/flolibio/skills",
+    "defaultPrompt": [
+      "Use $svg-diagram to draw a sequence diagram for this workflow.",
+      "Use $svg-diagram to create an architecture diagram."
+    ],
+    "brandColor": "#2563EB"
+  }
+}

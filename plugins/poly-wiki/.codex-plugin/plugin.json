@@ -1,0 +1,28 @@
+{
+  "name": "poly-wiki",
+  "version": "1.0.0",
+  "description": "Knowledge-base compiler skill for reusable wiki curation.",
+  "author": {
+    "name": "FloLib",
+    "url": "https://github.com/flolibio"
+  },
+  "homepage": "https://github.com/flolibio/skills/tree/main/skills/poly-wiki",
+  "repository": "https://github.com/flolibio/skills",
+  "license": "MIT",
+  "keywords": ["wiki", "knowledge", "zettelkasten", "notes", "compiler"],
+  "skills": "./skills/",
+  "interface": {
+    "displayName": "Poly Wiki",
+    "shortDescription": "Compile notes into reusable knowledge.",
+    "longDescription": "Compile raw materials into a structured wiki, extract reusable patterns, lint knowledge-base health, and query archived knowledge.",
+    "developerName": "FloLib",
+    "category": "Productivity",
+    "capabilities": ["Write"],
+    "websiteURL": "https://github.com/flolibio/skills",
+    "defaultPrompt": [
+      "Use $poly-wiki to compile these raw notes into my wiki.",
+      "Use $poly-wiki to lint this knowledge base."
+    ],
+    "brandColor": "#0F766E"
+  }
+}

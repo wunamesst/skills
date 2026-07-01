@@ -1,0 +1,8 @@
+interface:
+  display_name: "Poly Wiki"
+  short_description: "Compile notes into reusable knowledge."
+  brand_color: "#0F766E"
+  default_prompt: "Use $poly-wiki to compile raw notes into a structured wiki."
+
+policy:
+  allow_implicit_invocation: true

@@ -1,83 +1,84 @@
 # CLAUDE.md
 
-This file provides guidance to Claude Code (claude.ai/code) when working with code in this repository.
+This file provides guidance to Claude Code when working with this repository.
 
 ## Repository Purpose
 
-This is a Claude Code plugin marketplace — a collection of pluggable skill modules distributed via the Plugin Marketplace system. Each plugin follows the `.claude-plugin/` convention with skills, references, and scripts.
+This is the FloLib Skills repository: a multi-platform collection of agent
+skills distributed through platform-specific marketplace metadata.
 
-## Plugin Structure
+Canonical skill sources live in `skills/`. Claude Code uses the root
+`.claude-plugin/` files to install those canonical skill directories directly.
 
-```
-.claude-plugin/
-  plugin.json         # Plugin manifest (name, version, description, skills path)
-  marketplace.json    # Marketplace catalog for distribution
-skills/
-  svg-diagram/
-    SKILL.md          # Entry point — YAML frontmatter + full instructions
-    references/       # Supplementary docs loaded on-demand by SKILL.md
-    scripts/          # Executable code (e.g. svg2png.sh)
-output/               # Generated files during development (git-ignored)
+## Marketplace
+
+Marketplace name:
+
+```text
+flolib-skills
 ```
 
-## Installing This Plugin
+Install from Claude Code:
 
-From any Claude Code session:
-```
-/plugin marketplace add https://github.com/wunamesst/skills
-/plugin install svg-diagram@svg-diagram-marketplace
+```text
+/plugin marketplace add https://github.com/flolibio/skills
+/plugin install svg-diagram@flolib-skills
+/plugin install poly-wiki@flolib-skills
 ```
 
-For local development:
-```
+Local development:
+
+```text
 /plugin marketplace add .
-/plugin install svg-diagram@svg-diagram-marketplace
+/plugin install svg-diagram@flolib-skills
+/plugin install poly-wiki@flolib-skills
 ```
 
-Or symlink the skill directly:
-```
-ln -sf $(pwd)/skills/svg-diagram ~/.claude/skills/svg-diagram
+## Repository Layout
+
+```text
+skills/                 Canonical cross-platform skill sources
+.claude-plugin/         Claude Code marketplace entry
+.agents/plugins/        Codex marketplace entry
+plugins/                Codex plugin packages generated from skills/
+scripts/                Build and validation scripts
+docs/                   Repository standards and design notes
+output/                 Generated files during development, git-ignored
 ```
 
-## Current Plugins
+Do not edit generated copies under `plugins/*/skills/` directly. Edit
+`skills/<skill-name>/` and run:
+
+```bash
+node scripts/build-platforms.mjs
+node scripts/validate.mjs
+```
+
+## Current Skills
 
 ### svg-diagram
 
-Production-grade hand-written SVG diagram skill. Supports sequence diagrams, flowcharts, structure diagrams, state machines, timelines, ERDs (via mermaid.js), interactive HTML widgets, and illustrative diagrams.
+Production-grade hand-written SVG diagram skill. Supports sequence diagrams,
+flowcharts, structure diagrams, state machines, timelines, ERDs, interactive
+HTML widgets, and illustrative diagrams.
 
-Architecture: `SKILL.md` is a multi-step procedural handbook (type decision → canvas setup → color system → text sizing → per-type specs → dark mode → anti-overlap → checklist). Reference files are specialized sub-manuals:
+### poly-wiki
 
-| Reference | Purpose |
-|-----------|---------|
-| `references/sequence.md` | Sequence diagram spec + Y-coordinate lookup tables + example |
-| `references/flowchart.md` | Flowchart spec + node sizing + decision diamond layout + example |
-| `references/structure.md` | Structure diagram spec + nesting rules + example |
-| `references/state-machine.md` | State machine spec + initial/final state templates + example |
-| `references/timeline.md` | Timeline spec + event marker/card templates + example |
-| `references/erd.md` | Mermaid.js ERD template with dark-mode and rounded-corner post-processing |
-| `references/interactive.md` | HTML widget templates: stepper, slider, clickable nodes, animation |
-| `references/illustrative.md` | Illustrative diagram rules: spatial metaphors, physical vs abstract themes |
-| `references/embedded-styles.md` | Complete embedded CSS style block (color classes + dark mode) — backup reference |
+Knowledge-base compiler for ingesting raw materials, extracting reusable
+patterns, linting wiki structure, and querying archived knowledge.
 
-Key design invariants:
-- Canvas width is always `viewBox="0 0 680 {H}"` — 680 is a hard constant
-- Every SVG must include `xmlns="http://www.w3.org/2000/svg"` and an embedded `<style>` block (CSS template in SKILL.md step 2) for standalone browser rendering
-- Color classes (`c-*`) chosen by semantic role not sequence; use as many as semantically needed
-- Text on nodes must use `c-*` classes for automatic dark-mode support; hardcoded hex is only allowed on connecting lines (mid-tone safe values listed in SKILL.md §6)
-- Connecting lines match source node's semantic color
-- ERDs use mermaid.js, everything else is hand-written SVG
-- PNG export available via `scripts/svg2png.sh`
+Claude Code command prompts live in `skills/poly-wiki/commands/`.
 
-## Adding a New Plugin
+## Adding A Skill
 
-1. Create `skills/<plugin-name>/SKILL.md` with YAML frontmatter and full instructions.
-2. Add `skills/<plugin-name>/references/` for supplementary files.
-3. Add `skills/<plugin-name>/scripts/` for executable code.
-4. Add the plugin entry to `.claude-plugin/marketplace.json` plugins array.
-5. Add the plugin manifest at `.claude-plugin/plugin.json` (or create a separate `.claude-plugin/` per plugin).
+Follow `docs/main/flolib-skills-standards.md`.
 
-## Repo Layout Notes
+At minimum:
 
-- `output/` — All skill-generated files during development. Git-ignored.
-- `.claude-plugin/` — Plugin marketplace manifests for distribution.
-- `skills/` — Plugin skill directories, each containing a `SKILL.md` entry point.
+1. Add canonical source under `skills/<skill-name>/`.
+2. Add the Claude marketplace entry in `.claude-plugin/marketplace.json`.
+3. Add the Codex marketplace entry in `.agents/plugins/marketplace.json`.
+4. Add `plugins/<skill-name>/.codex-plugin/plugin.json`.
+5. Add the skill name to `scripts/build-platforms.mjs` and
+   `scripts/validate.mjs`.
+6. Run build and validation.

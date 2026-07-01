@@ -1,40 +1,40 @@
 {
-  "name": "svg-diagram-marketplace",
+  "name": "flolib-skills",
   "owner": {
-    "name": "Gavin Wu"
+    "name": "FloLib"
   },
-  "description": "Production-grade SVG diagram skills for Claude Code",
+  "description": "FloLib multi-platform agent skills for Claude Code",
   "plugins": [
     {
       "name": "svg-diagram",
       "source": {
         "source": "git-subdir",
-        "url": "https://github.com/wunamesst/skills.git",
+        "url": "https://github.com/flolibio/skills.git",
         "path": "skills/svg-diagram"
       },
       "description": "Hand-written SVG diagrams: sequence, flowchart, structure, ERD, interactive, state machine, timeline. Dark mode, semantic colors, CJK support.",
       "version": "1.0.0",
       "author": {
-        "name": "Gavin Wu"
+        "name": "FloLib"
       },
       "license": "MIT",
-      "repository": "https://github.com/wunamesst/skills",
+      "repository": "https://github.com/flolibio/skills",
       "keywords": ["svg", "diagram", "flowchart", "sequence", "visualization"]
     },
     {
       "name": "poly-wiki",
       "source": {
         "source": "git-subdir",
-        "url": "https://github.com/wunamesst/skills.git",
+        "url": "https://github.com/flolibio/skills.git",
         "path": "skills/poly-wiki"
       },
       "description": "Multi-platform knowledge base compiler. Compile raw materials into structured knowledge, maintain a reusable knowledge network. Supports ingest, extract, lint, query.",
       "version": "1.0.0",
       "author": {
-        "name": "Gavin Wu"
+        "name": "FloLib"
       },
       "license": "MIT",
-      "repository": "https://github.com/wunamesst/skills",
+      "repository": "https://github.com/flolibio/skills",
       "keywords": ["wiki", "knowledge", "zettelkasten", "notes", "compiler"]
     }
   ]
